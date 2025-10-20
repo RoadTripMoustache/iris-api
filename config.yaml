@@ -1,0 +1,24 @@
+firebase:
+  credentials_file_path: "./tmp/svc_account.json"
+  project_id: "guide-nestor-dev-40f8e"
+  mock:
+    enabled: false
+    data_file_path: "resources/mock/auth.json"
+
+database:
+  mongo:
+    uri: "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+    name: "guide-nestor"
+    private_key: "D:\\workspace\\NestorTravel\\guide_nestor_api\\tmp\\db_private.key"
+    public_key: "D:\\workspace\\NestorTravel\\guide_nestor_api\\tmp\\db_public.key"
+  mock:
+    enabled: false
+    data_folder_path: "resources/mock/db"
+
+server:
+  origins_allowed:
+    - "*"
+  images_dir: "./tmp/images"
+  images_base_url: "/images"
+
+

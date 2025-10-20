@@ -1,0 +1,59 @@
+name: Build, format, lint and test the application
+on:
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - 'README.md'
+      - '.github/**'
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  pull-requests: write
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & test API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '^1.20.0'
+      - name: Download libraries
+        run: go mod download
+      - name: Download staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      # --- BUILD API
+      - name: Go build
+        run: go build .
+
+      # --- CHECKS
+      - name: Unit tests
+        run: go test ./...
+      - name: Lint
+        run: staticcheck ./...
+
+  bump_version:
+    name: Bump version
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main'
+    needs:
+      - build
+    outputs:
+      stop: ${{ steps.bump.outputs.has_changed }}
+      version: ${{ steps.bump.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version using labels
+        id: bump
+        uses: apomalyn/bump-version-using-labels@v1.5.0
+        with:
+          file_path: 'version.yaml'
+          reference_branch: 'main'

@@ -1,0 +1,60 @@
+version: '3'
+
+env:
+  SERVER_EXPOSE: "0.0.0.0:8080"
+  METRICS_SERVER_EXPOSE: "0.0.0.0:2121"
+
+tasks:
+  update:
+    cmds:
+      - go mod tidy
+
+  # ----- Code Quality ----- #
+  qa:
+    cmds:
+      - task: lint
+      - task: unit_tests
+
+  lint:
+    cmds:
+      - staticcheck ./...
+
+  unit_tests:
+    cmds:
+      - go test ./... -coverprofile="code_coverage.out"
+      - go tool cover -html="code_coverage.out"
+
+  # ----- Docker ----- #
+  docker_build:
+    cmds:
+      - docker build . --tag kana_to_kanji_api:test
+
+  docker_up:
+    cmds:
+      - docker compose -f docker-compose.yaml up
+
+  # ----- Start locally ----- #
+  run_test:
+    env:
+      FIREBASE_CREDENTIALS_FILE_PATH: "./tmp/svc-account.json"
+      FIREBASE_PROJECT_ID: "guide-nestor-dev-40f8e"
+      DATABASE_MOCK_ENABLED: "false"
+      FIREBASE_MOCK_ENABLED: "false"
+    cmds:
+      - go run main.go
+
+  run_it:
+    env:
+      FIREBASE_CREDENTIALS_FILE_PATH: "./tmp/svc_account.json"
+      FIREBASE_PROJECT_ID: "guide-nestor-dev-40f8e"
+      DATABASE_MOCK_ENABLED: "true"
+      FIREBASE_MOCK_ENABLED: "true"
+    cmds:
+      - go run main.go
+
+  run_dev:
+    env:
+      FIREBASE_CREDENTIALS_FILE_PATH: "./tmp/svc-account.json"
+      FIREBASE_PROJECT_ID: "guide-nestor-dev-40f8e"
+    cmds:
+      - go run main.go
