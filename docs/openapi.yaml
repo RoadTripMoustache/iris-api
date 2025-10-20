@@ -1,0 +1,233 @@
+openapi: 3.0.3
+info:
+  title: Guide Nestor API
+  description: API permettant de gérer les idées, votes et commentaires.
+  version: 0.1.0
+servers:
+  - url: https://api.example.com
+    description: Serveur de production (exemple)
+  - url: http://localhost:8080
+    description: Développement local
+security:
+  - bearerAuth: []
+paths:
+  /v1/ideas:
+    get:
+      summary: Lister les idées
+      description: Retourne une liste paginée des idées.
+      tags: [Ideas]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Liste des idées
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      summary: Créer une idée
+      tags: [Ideas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIdeaRequest'
+      responses:
+        '201':
+          description: Idée créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /v1/ideas/{id}/vote:
+    post:
+      summary: Voter pour une idée
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Idée mise à jour après le vote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Retirer son vote pour une idée
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Idée mise à jour après le retrait du vote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /v1/ideas/{id}/comments:
+    post:
+      summary: Ajouter un commentaire à une idée
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCommentRequest'
+      responses:
+        '201':
+          description: Idée mise à jour après ajout du commentaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    PageNumber:
+      name: page[number]
+      in: query
+      description: Numéro de page (commence à 1). Si absent ou invalide, valeur par défaut côté serveur.
+      schema:
+        type: integer
+        minimum: 1
+    PageSize:
+      name: page[size]
+      in: query
+      description: Taille de page. Si absent ou invalide, valeur par défaut côté serveur.
+      schema:
+        type: integer
+        minimum: 1
+  responses:
+    ErrorResponse:
+      description: Erreur
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EnhancedError'
+  schemas:
+    IdeaTag:
+      type: string
+      description: Catégorie de l'idée
+      enum: [bug, enhancement]
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+        message:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+      required: [id, created_at, user_id, message]
+    Idea:
+      type: object
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        title:
+          type: string
+        tag:
+          $ref: '#/components/schemas/IdeaTag'
+        creator_id:
+          type: string
+        votes_count:
+          type: integer
+        voters:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+        user_has_voted:
+          type: boolean
+          description: Présent uniquement pour l'utilisateur authentifié
+      required: [id, created_at, title, tag, creator_id, votes_count, voters, comments, images]
+    CreateIdeaRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        tag:
+          $ref: '#/components/schemas/IdeaTag'
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+      required: [title, tag]
+    AddCommentRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+      required: [message]
+    EnhancedError:
+      type: object
+      properties:
+        error_code:
+          type: string
+          description: Code d'erreur interne (ex. AUTH001, REQ000, SER000, ...)
+        error_message:
+          type: string
+        error_http_code:
+          type: integer
+        details:
+          description: Informations additionnelles liées à l'erreur
+      required: [error_code]
