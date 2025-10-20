@@ -1,0 +1,5 @@
+.idea
+tmp
+
+# Temp files
+code_coverage.out
