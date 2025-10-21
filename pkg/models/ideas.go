@@ -29,6 +29,7 @@ type Idea struct {
 	Voters       []string  `json:"voters" bson:"voters"`
 	Comments     []Comment `json:"comments" bson:"comments"`
 	Images       []string  `json:"images" bson:"images"`
+	IsOpen       bool      `json:"is_open" bson:"is_open"`
 	UserHasVoted bool      `json:"user_has_voted,omitempty" bson:"-"`
 }
 

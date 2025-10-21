@@ -65,4 +65,28 @@ func (p *IdeasRouter) InitRoutes() {
 		http.StatusCreated,
 		ctrl.AddComment,
 	)
+	// Edit comment
+	middlewares.AddRoute(
+		p.MuxRouter,
+		http.MethodPatch,
+		p.Path+"/{id}/comments/{commentId}",
+		http.StatusOK,
+		ctrl.EditComment,
+	)
+	// Delete comment
+	middlewares.AddRoute(
+		p.MuxRouter,
+		http.MethodDelete,
+		p.Path+"/{id}/comments/{commentId}",
+		http.StatusOK,
+		ctrl.DeleteComment,
+	)
+	// Open/Close idea (admin)
+	middlewares.AddRoute(
+		p.MuxRouter,
+		http.MethodPatch,
+		p.Path+"/{id}/open",
+		http.StatusOK,
+		ctrl.AdminSetIdeaOpen,
+	)
 }

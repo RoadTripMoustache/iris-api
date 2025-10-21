@@ -6,12 +6,13 @@ import (
 
 	apiUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	appErrors "github.com/RoadTripMoustache/guide_nestor_api/p
+	appErrors "github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/models"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
 	nosql "github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage"
 	nosqlUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/utils"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 const collection = "ideas"
@@ -32,6 +33,7 @@ func CreateIdea(ctx apiUtils.Context, title string, tag models.IdeaTag, creatorI
 		Voters:     []string{},
 		Comments:   []models.Comment{},
 		Images:     images,
+		IsOpen:     true,
 	}
 	if err := nosql.GetInstance().Add(collection, idea); err != nil {
 		logging.Error(err, map[string]interface{}{"service": "ideas", "method": "CreateIdea"})
@@ -118,12 +120,94 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 	var idea models.Idea
 	_ = bson.Unmarshal(b, &idea)
 	comment := models.Comment{
+		ID:        primitive.NewObjectID().Hex(),
 		CreatedAt: time.Now().UTC(),
 		UserID:    userID,
 		Message:   message,
 		Images:    images,
 	}
 	idea.Comments = append(idea.Comments, comment)
+	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+		return nil, appErrors.New(enum.InternalServerError, err)
+	}
+	return &idea, nil
+}
+
+// SetIdeaOpen updates the open state of an idea
+func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*models.Idea, *appErrors.EnhancedError) {
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	if len(doc) == 0 {
+		return nil, appErrors.New(enum.ResourceNotFound, "idea")
+	}
+	b, _ := bson.Marshal(doc[0])
+	var idea models.Idea
+	_ = bson.Unmarshal(b, &idea)
+	idea.IsOpen = isOpen
+	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"is_open": idea.IsOpen}); err != nil {
+		return nil, appErrors.New(enum.InternalServerError, err)
+	}
+	return &idea, nil
+}
+
+// EditComment updates a user's own comment on an idea
+func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string, images []string) (*models.Idea, *appErrors.EnhancedError) {
+	if strings.TrimSpace(message) == "" {
+		return nil, appErrors.New(enum.BadRequest, "message required")
+	}
+	if len(images) > models.MaxImagesPerEntity {
+		return nil, appErrors.New(enum.BadRequest, "too many images")
+	}
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	if len(doc) == 0 {
+		return nil, appErrors.New(enum.ResourceNotFound, "idea")
+	}
+	b, _ := bson.Marshal(doc[0])
+	var idea models.Idea
+	_ = bson.Unmarshal(b, &idea)
+	found := false
+	for i, c := range idea.Comments {
+		if c.ID == commentID {
+			if c.UserID != userID {
+				return nil, appErrors.New(enum.AuthUnauthorized, "cannot modify this comment")
+			}
+			idea.Comments[i].Message = message
+			idea.Comments[i].Images = images
+			found = true
+			break
+		}
+	}
+	if !found {
+		return nil, appErrors.New(enum.ResourceNotFound, "comment")
+	}
+	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+		return nil, appErrors.New(enum.InternalServerError, err)
+	}
+	return &idea, nil
+}
+
+// DeleteComment removes a user's own comment from an idea
+func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*models.Idea, *appErrors.EnhancedError) {
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	if len(doc) == 0 {
+		return nil, appErrors.New(enum.ResourceNotFound, "idea")
+	}
+	b, _ := bson.Marshal(doc[0])
+	var idea models.Idea
+	_ = bson.Unmarshal(b, &idea)
+	idx := -1
+	for i, c := range idea.Comments {
+		if c.ID == commentID {
+			if c.UserID != userID {
+				return nil, appErrors.New(enum.AuthUnauthorized, "cannot delete this comment")
+			}
+			idx = i
+			break
+		}
+	}
+	if idx == -1 {
+		return nil, appErrors.New(enum.ResourceNotFound, "comment")
+	}
+	idea.Comments = append(idea.Comments[:idx], idea.Comments[idx+1:]...)
 	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}

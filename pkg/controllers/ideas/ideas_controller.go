@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	apiUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/validators"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/controllers/utils"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
 	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
@@ -34,6 +35,40 @@ type createIdeaReq struct {
 type addCommentReq struct {
 	Message string   `json:"message"`
 	Images  []string `json:"images"`
+}
+
+type setOpenReq struct {
+	IsOpen bool `json:"is_open"`
+}
+
+func EditComment(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
+	payload := addCommentReq{}
+	if err := utils.BodyFormatter(ctx.Body, &payload); err != nil {
+		return nil, errors.New(enum.BadRequest, err)
+	}
+	if strings.TrimSpace(payload.Message) == "" {
+		return nil, errors.New(enum.BadRequest, "message required")
+	}
+	if e := validateImages(payload.Images); e != nil {
+		return nil, e
+	}
+	ideaID := ctx.Vars["id"]
+	commentID := ctx.Vars["commentId"]
+	idea, e := ideas.EditComment(ctx, ideaID, commentID, ctx.UserID, payload.Message, payload.Images)
+	if e != nil {
+		return nil, e
+	}
+	return utils.PrepareResponse(idea)
+}
+
+func DeleteComment(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
+	ideaID := ctx.Vars["id"]
+	commentID := ctx.Vars["commentId"]
+	idea, e := ideas.DeleteComment(ctx, ideaID, commentID, ctx.UserID)
+	if e != nil {
+		return nil, e
+	}
+	return utils.PrepareResponse(idea)
 }
 
 func CreateIdea(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
@@ -90,6 +125,23 @@ func AddComment(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	}
 	ideaID := ctx.Vars["id"]
 	idea, e := ideas.AddComment(ctx, ideaID, ctx.UserID, payload.Message, payload.Images)
+	if e != nil {
+		return nil, e
+	}
+	return utils.PrepareResponse(idea)
+}
+
+// AdminSetIdeaOpen allows an admin to open/close an idea
+func AdminSetIdeaOpen(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
+	if err := validators.IsAdmin(ctx); err != nil {
+		return nil, err
+	}
+	payload := setOpenReq{}
+	if err := utils.BodyFormatter(ctx.Body, &payload); err != nil {
+		return nil, errors.New(enum.BadRequest, err)
+	}
+	ideaID := ctx.Vars["id"]
+	idea, e := ideas.SetIdeaOpen(ctx, ideaID, payload.IsOpen)
 	if e != nil {
 		return nil, e
 	}

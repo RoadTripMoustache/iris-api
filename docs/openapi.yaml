@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Guide Nestor API
+  title: Iris API
   description: API permettant de gérer les idées, votes et commentaires.
-  version: 0.1.0
+  version: 0.2.0
 servers:
   - url: https://api.example.com
     description: Serveur de production (exemple)
@@ -110,6 +110,85 @@ paths:
                 $ref: '#/components/schemas/Idea'
         default:
           $ref: '#/components/responses/ErrorResponse'
+  /v1/ideas/{id}/comments/{commentId}:
+    patch:
+      summary: Modifier un commentaire
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCommentRequest'
+      responses:
+        '200':
+          description: Idée mise à jour après modification du commentaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Supprimer un commentaire
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Idée mise à jour après suppression du commentaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /v1/ideas/{id}/open:
+    patch:
+      summary: Ouvrir/fermer une idée (admin)
+      description: Cette opération est réservée aux administrateurs.
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetIdeaOpenRequest'
+      responses:
+        '200':
+          description: Idée mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -190,10 +269,13 @@ components:
           items:
             type: string
             format: uri
+        is_open:
+          type: boolean
+          description: Indique si l'idée est ouverte (vote/commentaires possibles) ou fermée
         user_has_voted:
           type: boolean
           description: Présent uniquement pour l'utilisateur authentifié
-      required: [id, created_at, title, tag, creator_id, votes_count, voters, comments, images]
+      required: [id, created_at, title, tag, creator_id, votes_count, voters, comments, images, is_open]
     CreateIdeaRequest:
       type: object
       properties:
@@ -206,7 +288,16 @@ components:
           items:
             type: string
             format: uri
+        is_open:
+          type: boolean
+          description: Optionnel. Par défaut à true lors de la création.
       required: [title, tag]
+    SetIdeaOpenRequest:
+      type: object
+      properties:
+        is_open:
+          type: boolean
+      required: [is_open]
     AddCommentRequest:
       type: object
       properties:
