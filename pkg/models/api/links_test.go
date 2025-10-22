@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/RoadTripMoustache/grostube/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
