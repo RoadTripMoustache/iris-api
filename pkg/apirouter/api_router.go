@@ -5,6 +5,7 @@ import (
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/middlewares"
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1"
 	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	imagesController "github.com/RoadTripMoustache/iris_api/pkg/controllers/images"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -24,6 +25,13 @@ func New() *APIRouter {
 
 // Serve - Init all the subrouters, middlewares and start the server.
 func (a *APIRouter) Serve() {
+	// Public image retrieval route
+	imagesBase := config.GetConfigs().Server.ImagesBaseURL
+	if imagesBase == "" {
+		imagesBase = "/images"
+	}
+	a.MuxRouter.HandleFunc(imagesBase+"/{filename}", imagesController.GetImage).Methods("GET")
+
 	// Init routes
 	v1.New(a.MuxRouter).InitRoutes()
 

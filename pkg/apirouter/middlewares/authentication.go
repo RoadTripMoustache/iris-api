@@ -4,6 +4,7 @@ package middlewares
 import (
 	"context"
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	"github.com/RoadTripMoustache/iris_api/pkg/enum"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/auth"
 	"net/http"
@@ -14,6 +15,15 @@ import (
 func AuthenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/v1/admob") {
+			next.ServeHTTP(w, r)
+			return
+		}
+		// Allow public access to image retrieval endpoint
+		imagesBase := config.GetConfigs().Server.ImagesBaseURL
+		if imagesBase == "" {
+			imagesBase = "/images"
+		}
+		if strings.HasPrefix(r.URL.Path, imagesBase) && r.Method == http.MethodGet {
 			next.ServeHTTP(w, r)
 			return
 		}

@@ -11,6 +11,64 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /v1/images:
+    post:
+      summary: Importer une image
+      description: "Importe une image .jpg ou .png (< 2Mo) et retourne l'URL publique pour la récupérer."
+      tags: [Images]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        '201':
+          description: URL de l'image
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                required: [url]
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /images/{filename}:
+    get:
+      summary: Récupérer une image
+      description: "Retourne le contenu de l'image."
+      tags: [Images]
+      security: []
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Image non trouvée
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /v1/ideas:
     get:
       summary: Lister les idées
