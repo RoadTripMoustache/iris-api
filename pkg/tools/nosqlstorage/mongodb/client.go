@@ -3,8 +3,8 @@ package mongodb
 
 import (
 	"context"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

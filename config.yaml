@@ -9,8 +9,8 @@ database:
   mongo:
     uri: "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
     name: "guide-nestor"
-    private_key: "D:\\workspace\\NestorTravel\\guide_nestor_api\\tmp\\db_private.key"
-    public_key: "D:\\workspace\\NestorTravel\\guide_nestor_api\\tmp\\db_public.key"
+    private_key: "D:\\workspace\\NestorTravel\\iris_api\\tmp\\db_private.key"
+    public_key: "D:\\workspace\\NestorTravel\\iris_api\\tmp\\db_public.key"
   mock:
     enabled: false
     data_folder_path: "resources/mock/db"

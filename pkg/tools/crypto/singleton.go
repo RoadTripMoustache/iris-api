@@ -2,9 +2,9 @@
 package crypto
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/crypto/encryption"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/crypto/mock"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/crypto/encryption"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/crypto/mock"
 )
 
 var encryptionInstance CryptoClient = nil

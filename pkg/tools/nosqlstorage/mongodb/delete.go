@@ -1,7 +1,7 @@
 package mongodb
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

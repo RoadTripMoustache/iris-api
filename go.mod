@@ -1,4 +1,4 @@
-module github.com/RoadTripMoustache/guide_nestor_api
+module github.com/RoadTripMoustache/iris_api
 
 go 1.24
 

@@ -1,11 +1,11 @@
 package admin
 
 import (
-	apiUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	dbmodels "github.com/RoadTripMoustache/guide_nestor_api/pkg/dbmodels/admin"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/mocks/services"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/utils"
+	apiUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	dbmodels "github.com/RoadTripMoustache/iris_api/pkg/dbmodels/admin"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/mocks/services"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

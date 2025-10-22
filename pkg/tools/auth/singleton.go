@@ -2,9 +2,9 @@
 package auth
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	firestore "github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/auth/firestore"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/auth/mock"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	firestore "github.com/RoadTripMoustache/iris_api/pkg/tools/auth/firestore"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/auth/mock"
 )
 
 var authInstance AuthClient = nil

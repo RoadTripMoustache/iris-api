@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/mocks/externallibs"
+	"github.com/RoadTripMoustache/iris_api/pkg/mocks/externallibs"
 	"testing"
 )
 

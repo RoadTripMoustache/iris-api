@@ -1,7 +1,7 @@
 package nosqlstorage
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/utils"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

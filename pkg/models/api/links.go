@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"github.com/RoadTripMoustache/grostube/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
 	"math"
 	"strings"
 )

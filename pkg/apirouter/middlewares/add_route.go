@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
 	"github.com/gorilla/mux"
 	"net/http"
 )

@@ -2,8 +2,8 @@ package mock
 
 import (
 	"encoding/json"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/utils"
 	"os"
 )
 

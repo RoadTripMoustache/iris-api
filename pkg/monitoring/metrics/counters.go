@@ -7,7 +7,7 @@ import (
 
 var (
 	APICallsCounter = promauto.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "guide_nestor_api",
+		Namespace: "iris_api",
 		Name:      "api_calls_counter",
 		Help:      "Number of calls on the API",
 	}, []string{"method", "uri", "http_code", "user"})

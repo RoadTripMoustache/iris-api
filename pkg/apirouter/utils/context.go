@@ -25,6 +25,7 @@ type Context struct {
 	Body          io.ReadCloser
 	Path          string
 	Method        string
+	RequestURI    string
 }
 
 func (c Context) Clone() Context {

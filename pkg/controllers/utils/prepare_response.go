@@ -2,9 +2,9 @@ package utils
 
 import (
 	"encoding/json"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 )
 
 func PrepareResponse(a any) ([]byte, *errors.EnhancedError) {

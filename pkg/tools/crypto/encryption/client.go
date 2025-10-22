@@ -3,8 +3,8 @@ package encryption
 
 import (
 	"crypto/rsa"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 )
 
 type EncryptionClient struct {

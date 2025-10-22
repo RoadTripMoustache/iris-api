@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/utils"
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v3"
 	"os"

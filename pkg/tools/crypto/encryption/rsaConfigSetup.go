@@ -5,7 +5,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"os"
 )
 

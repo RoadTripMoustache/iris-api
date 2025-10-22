@@ -1,7 +1,7 @@
 package mock
 
 import (
-	utils2 "github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/utils"
+	utils2 "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/utils"
 )
 
 // Count - Returns the number of elements in the collection given in parameter.

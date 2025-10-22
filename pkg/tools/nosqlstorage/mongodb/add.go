@@ -1,6 +1,6 @@
 package mongodb
 
-import "github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
+import "github.com/RoadTripMoustache/iris_api/pkg/config"
 
 // Add - Add data in the selected collection
 func (m *MongoDBClient) Add(collection string, data interface{}) error {

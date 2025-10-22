@@ -3,9 +3,9 @@ package middlewares
 
 import (
 	"context"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/auth"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/auth"
 	"net/http"
 	"strings"
 )

@@ -2,10 +2,10 @@
 package apirouter
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/middlewares"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/routes/v1"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/middlewares"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"net/http"

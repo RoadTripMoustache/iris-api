@@ -1,7 +1,7 @@
 package admin
 
 import (
-	models "github.com/RoadTripMoustache/guide_nestor_api/pkg/models/admin"
+	models "github.com/RoadTripMoustache/iris_api/pkg/models/admin"
 )
 
 var (

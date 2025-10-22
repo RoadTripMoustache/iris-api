@@ -2,7 +2,7 @@
 package metrics
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/monitoring/metrics"
+	"github.com/RoadTripMoustache/iris_api/pkg/monitoring/metrics"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"

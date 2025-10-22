@@ -2,7 +2,7 @@
 package v1
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/routes/v1/ideas"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1/ideas"
 	"github.com/gorilla/mux"
 )
 

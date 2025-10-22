@@ -2,7 +2,7 @@ package firebase
 
 import (
 	"firebase.google.com/go/auth"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 )
 
 // GetUser - Get the firebase user from its userID

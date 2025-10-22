@@ -4,13 +4,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	apiUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/validators"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/controllers/utils"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/models"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/services/ideas"
+	apiUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/validators"
+	"github.com/RoadTripMoustache/iris_api/pkg/controllers/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/models"
+	"github.com/RoadTripMoustache/iris_api/pkg/services/ideas"
 )
 
 func validateImages(urls []string) *errors.EnhancedError {

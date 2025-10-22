@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 )
 
 func main() {

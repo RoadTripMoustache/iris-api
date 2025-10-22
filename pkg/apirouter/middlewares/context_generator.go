@@ -2,7 +2,7 @@
 package middlewares
 
 import (
-	routerUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
+	routerUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
@@ -47,6 +47,7 @@ func GenerateContext(r *http.Request, method string, path string) routerUtils.Co
 		Vars:          vars,
 		Body:          r.Body,
 		Method:        method,
+		RequestURI:    r.RequestURI,
 		Path:          path,
 	}
 }

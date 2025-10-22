@@ -2,9 +2,9 @@
 package nosqlstorage
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/config"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/mock"
-	mongodb "github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage/mongodb"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/mock"
+	mongodb "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/mongodb"
 )
 
 var noSQLStorageInstance NoSQLClient = nil

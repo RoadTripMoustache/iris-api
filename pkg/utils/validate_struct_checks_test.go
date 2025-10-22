@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/mocks"
+	"github.com/RoadTripMoustache/iris_api/pkg/mocks"
 	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"

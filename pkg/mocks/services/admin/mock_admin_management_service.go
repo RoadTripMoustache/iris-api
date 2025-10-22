@@ -1,9 +1,9 @@
 package admin
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	dbmodels "github.com/RoadTripMoustache/guide_nestor_api/pkg/dbmodels/admin"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	dbmodels "github.com/RoadTripMoustache/iris_api/pkg/dbmodels/admin"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
 	"github.com/stretchr/testify/mock"
 )
 

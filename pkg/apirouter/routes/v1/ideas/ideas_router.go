@@ -3,8 +3,8 @@ package ideas
 
 import (
 	"fmt"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/middlewares"
-	ctrl "github.com/RoadTripMoustache/guide_nestor_api/pkg/controllers/ideas"
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/middlewares"
+	ctrl "github.com/RoadTripMoustache/iris_api/pkg/controllers/ideas"
 	"github.com/gorilla/mux"
 	"net/http"
 )

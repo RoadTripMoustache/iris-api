@@ -7,7 +7,7 @@ import (
 var (
 	APICallsDurationHistogram = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Namespace: "guide_nestor_api",
+			Namespace: "iris_api",
 			Name:      "api_requests_duration_seconds",
 			Help:      "Duration of HTTP requests in seconds.",
 			Buckets:   prometheus.ExponentialBuckets(0.001, 2, 15),

@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/nosqlstorage"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage"
 	"github.com/stretchr/testify/mock"
 )
 

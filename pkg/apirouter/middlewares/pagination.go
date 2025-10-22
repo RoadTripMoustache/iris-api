@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"context"
-	routerUtils "github.com/RoadTripMoustache/guide_nestor_api/pkg/apirouter/utils"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/utils"
+	routerUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/utils"
 	"net/http"
 )
 

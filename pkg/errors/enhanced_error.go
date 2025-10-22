@@ -5,8 +5,8 @@ package errors
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/enum"
-	"github.com/RoadTripMoustache/guide_nestor_api/pkg/tools/logging"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 )
 
 // EnhancedError represents a structured error response with additional context.
