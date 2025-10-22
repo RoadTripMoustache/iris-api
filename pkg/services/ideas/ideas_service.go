@@ -17,7 +17,7 @@ import (
 
 const collection = "ideas"
 
-func CreateIdea(ctx apiUtils.Context, title string, tag models.IdeaTag, creatorID string, images []string) (*models.Idea, *appErrors.EnhancedError) {
+func CreateIdea(ctx apiUtils.Context, title string, description string, tag models.IdeaTag, creatorID string, images []string) (*models.Idea, *appErrors.EnhancedError) {
 	if title == "" || (tag != models.IdeaTagBug && tag != models.IdeaTagEnhancement) {
 		return nil, appErrors.New(enum.BadRequest, "invalid title or tag")
 	}
@@ -25,15 +25,16 @@ func CreateIdea(ctx apiUtils.Context, title string, tag models.IdeaTag, creatorI
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
 	idea := &models.Idea{
-		CreatedAt:  time.Now().UTC(),
-		Title:      title,
-		Tag:        tag,
-		CreatorID:  creatorID,
-		VotesCount: 0,
-		Voters:     []string{},
-		Comments:   []models.Comment{},
-		Images:     images,
-		IsOpen:     true,
+		CreatedAt:   time.Now().UTC(),
+		Title:       title,
+		Description: description,
+		Tag:         tag,
+		CreatorID:   creatorID,
+		VotesCount:  0,
+		Voters:      []string{},
+		Comments:    []models.Comment{},
+		Images:      images,
+		IsOpen:      true,
 	}
 	if err := nosql.GetInstance().Add(collection, idea); err != nil {
 		logging.Error(err, map[string]interface{}{"service": "ideas", "method": "CreateIdea"})

@@ -11,6 +11,8 @@ import (
 	"github.com/RoadTripMoustache/iris_api/pkg/errors"
 	"github.com/RoadTripMoustache/iris_api/pkg/models"
 	"github.com/RoadTripMoustache/iris_api/pkg/services/ideas"
+	nosql "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage"
+	nosqlUtils "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/utils"
 )
 
 func validateImages(urls []string) *errors.EnhancedError {
@@ -27,9 +29,10 @@ func validateImages(urls []string) *errors.EnhancedError {
 }
 
 type createIdeaReq struct {
-	Title  string         `json:"title"`
-	Tag    models.IdeaTag `json:"tag"`
-	Images []string       `json:"images"`
+	Title       string         `json:"title"`
+	Tag         models.IdeaTag `json:"tag"`
+	Images      []string       `json:"images"`
+	Description string         `json:"description"`
 }
 
 type addCommentReq struct {
@@ -76,10 +79,13 @@ func CreateIdea(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	if err := utils.BodyFormatter(ctx.Body, &payload); err != nil {
 		return nil, errors.New(enum.BadRequest, err)
 	}
+	if strings.TrimSpace(payload.Description) == "" {
+		return nil, errors.New(enum.BadRequest, "description required")
+	}
 	if e := validateImages(payload.Images); e != nil {
 		return nil, e
 	}
-	idea, e := ideas.CreateIdea(ctx, payload.Title, payload.Tag, ctx.UserID, payload.Images)
+	idea, e := ideas.CreateIdea(ctx, payload.Title, payload.Description, payload.Tag, ctx.UserID, payload.Images)
 	if e != nil {
 		return nil, e
 	}
@@ -91,7 +97,13 @@ func ListIdeas(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	if e != nil {
 		return nil, e
 	}
-	return utils.PrepareResponse(list)
+	// total number of items in the resource (across all pages)
+	countPtr := nosql.GetInstance().Count("ideas", []nosqlUtils.Filter{})
+	total := 0
+	if countPtr != nil {
+		total = *countPtr
+	}
+	return utils.PrepareListResponse(ctx, list, total)
 }
 
 func VoteIdea(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {

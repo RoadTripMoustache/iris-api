@@ -23,6 +23,7 @@ type Idea struct {
 	ID           string    `json:"id" bson:"_id,omitempty"`
 	CreatedAt    time.Time `json:"created_at" bson:"created_at"`
 	Title        string    `json:"title" bson:"title"`
+	Description  string    `json:"description" bson:"description"`
 	Tag          IdeaTag   `json:"tag" bson:"tag"`
 	CreatorID    string    `json:"creator_id" bson:"creator_id"`
 	VotesCount   int       `json:"votes_count" bson:"votes_count"`

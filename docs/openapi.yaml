@@ -281,6 +281,8 @@ components:
       properties:
         title:
           type: string
+        description:
+          type: string
         tag:
           $ref: '#/components/schemas/IdeaTag'
         images:
@@ -288,10 +290,7 @@ components:
           items:
             type: string
             format: uri
-        is_open:
-          type: boolean
-          description: Optionnel. Par défaut à true lors de la création.
-      required: [title, tag]
+      required: [title, tag, description]
     SetIdeaOpenRequest:
       type: object
       properties:
