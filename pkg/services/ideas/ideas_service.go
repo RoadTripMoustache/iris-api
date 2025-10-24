@@ -25,6 +25,7 @@ func CreateIdea(ctx apiUtils.Context, title string, description string, tag mode
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
 	idea := &models.Idea{
+		ID:          primitive.NewObjectID().Hex(),
 		CreatedAt:   time.Now().UTC(),
 		Title:       title,
 		Description: description,
@@ -65,7 +66,7 @@ func ListIdeas(ctx apiUtils.Context) ([]models.Idea, *appErrors.EnhancedError) {
 
 // GetIdea returns a single idea by id with user_has_voted computed
 func GetIdea(ctx apiUtils.Context, ideaID string) (*models.Idea, *appErrors.EnhancedError) {
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -84,7 +85,7 @@ func GetIdea(ctx apiUtils.Context, ideaID string) (*models.Idea, *appErrors.Enha
 }
 
 func Vote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *appErrors.EnhancedError) {
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -98,14 +99,14 @@ func Vote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *ap
 	}
 	idea.Voters = append(idea.Voters, userID)
 	idea.VotesCount = len(idea.Voters)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
 }
 
 func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *appErrors.EnhancedError) {
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -120,7 +121,7 @@ func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *
 	}
 	idea.Voters = newVoters
 	idea.VotesCount = len(idea.Voters)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -133,7 +134,7 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 	if len(images) > models.MaxImagesPerEntity {
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -148,7 +149,7 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 		Images:    images,
 	}
 	idea.Comments = append(idea.Comments, comment)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -156,7 +157,7 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 
 // SetIdeaOpen updates the open state of an idea
 func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*models.Idea, *appErrors.EnhancedError) {
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -178,7 +179,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 	if len(images) > models.MaxImagesPerEntity {
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -200,7 +201,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 	if !found {
 		return nil, appErrors.New(enum.ResourceNotFound, "comment")
 	}
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -208,7 +209,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 
 // DeleteComment removes a user's own comment from an idea
 func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*models.Idea, *appErrors.EnhancedError) {
-	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
@@ -229,7 +230,7 @@ func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*mod
 		return nil, appErrors.New(enum.ResourceNotFound, "comment")
 	}
 	idea.Comments = append(idea.Comments[:idx], idea.Comments[idx+1:]...)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
