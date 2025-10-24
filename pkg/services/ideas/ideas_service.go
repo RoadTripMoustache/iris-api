@@ -101,7 +101,7 @@ func Vote(ctx apiUtils.Context, ideaID string, userID string) (*dbmodels.Idea, *
 	}
 	idea.Voters = append(idea.Voters, userID)
 	idea.VotesCount = len(idea.Voters)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -123,7 +123,7 @@ func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*dbmodels.Idea,
 	}
 	idea.Voters = newVoters
 	idea.VotesCount = len(idea.Voters)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"voters": idea.Voters, "votes_count": idea.VotesCount}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -151,7 +151,7 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 		Images:    images,
 	}
 	idea.Comments = append(idea.Comments, comment)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -167,7 +167,7 @@ func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*dbmodels.Id
 	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	idea.IsOpen = isOpen
-	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"is_open": idea.IsOpen}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -203,7 +203,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 	if !found {
 		return nil, appErrors.New(enum.ResourceNotFound, "comment")
 	}
-	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
@@ -232,7 +232,7 @@ func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*dbm
 		return nil, appErrors.New(enum.ResourceNotFound, "comment")
 	}
 	idea.Comments = append(idea.Comments[:idx], idea.Comments[idx+1:]...)
-	if err := nosql.GetInstance().Update(collection, idea.ID, "id", map[string]interface{}{"comments": idea.Comments}); err != nil {
+	if err := nosql.GetInstance().Update(collection, idea.ID, "id", idea); err != nil {
 		return nil, appErrors.New(enum.InternalServerError, err)
 	}
 	return &idea, nil
