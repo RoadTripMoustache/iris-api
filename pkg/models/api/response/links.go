@@ -1,3 +1,4 @@
+// Package response contains all the object models for responses
 package response
 
 import (

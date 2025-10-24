@@ -10,10 +10,10 @@ var (
 	}
 
 	admin = Admin{
-		UserId: "titiU",
+		UserID: "titiU",
 	}
 
 	adminModel = models.Admin{
-		UserId: "titiU",
+		UserID: "titiU",
 	}
 )

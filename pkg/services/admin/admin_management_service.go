@@ -1,3 +1,4 @@
+// Package admin contains all the admin management service methods.
 package admin
 
 import (
@@ -17,17 +18,16 @@ var (
 // GetAdmin retrieves the admin record for a user with the specified ID.
 // Parameters:
 //   - ctx: The API context containing request information
-//   - userId: The ID of the user to check for admin privileges
+//   - userID: The ID of the user to check for admin privileges
 //
-// Retur
 // Returns:
 //   - *dbmodels.Admin: The admin record if found, nil otherwise
 //   - *errors.EnhancedError: Error information if the operation fails
-func GetAdmin(ctx utils.Context, userId string) (*dbmodels.Admin, *errors.EnhancedError) {
+func GetAdmin(ctx utils.Context, userID string) (*dbmodels.Admin, *errors.EnhancedError) {
 	requestFilters := []nosqlutils.Filter{{
-		Param:    dbmodels.AdminUserIdLabel,
+		Param:    dbmodels.AdminUserIDLabel,
 		Operator: "==",
-		Value:    userId,
+		Value:    userID,
 	}}
 
 	documents := noSQLStorageGetInstance().
@@ -67,12 +67,12 @@ func GetAdmins(ctx utils.Context) ([]*dbmodels.Admin, *errors.EnhancedError) {
 // If the user already has admin privileges, an error is returned.
 // Parameters:
 //   - ctx: The API context containing request information
-//   - userId: The ID of the user to grant admin privileges to
+//   - userID: The ID of the user to grant admin privileges to
 //
 // Returns:
 //   - *errors.EnhancedError: Error information if the operation fails or if the user already has admin privileges
-func AddAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
-	a, eerr := GetAdmin(ctx, userId)
+func AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
+	a, eerr := GetAdmin(ctx, userID)
 	if eerr != nil {
 		return eerr
 	}
@@ -81,7 +81,7 @@ func AddAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
 	}
 
 	newAdmin := dbmodels.Admin{
-		UserId: userId,
+		UserID: userID,
 	}
 
 	err := noSQLStorageGetInstance().Add(dbmodels.AdminCollectionName, newAdmin.ToMap())
@@ -97,12 +97,12 @@ func AddAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
 // DeleteAdmin revokes admin privileges from a user with the specified ID.
 // Parameters:
 //   - ctx: The API context containing request information
-//   - userId: The ID of the user to revoke admin privileges from
+//   - userID: The ID of the user to revoke admin privileges from
 //
 // Returns:
 //   - *errors.EnhancedError: Error information if the operation fails
-func DeleteAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
-	err := noSQLStorageGetInstance().Delete(dbmodels.AdminCollectionName, userId, dbmodels.AdminUserIdLabel)
+func DeleteAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
+	err := noSQLStorageGetInstance().Delete(dbmodels.AdminCollectionName, userID, dbmodels.AdminUserIDLabel)
 	if err != nil {
 		logging.Error(err, nil)
 		return errors.New(enum.InternalServerError, nil)

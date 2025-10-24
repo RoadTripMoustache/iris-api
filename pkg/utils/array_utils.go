@@ -6,13 +6,12 @@ package utils
 //   - m: The map to search in
 //   - key: The key to search for
 //
-// Retur
 // Returns:
 //   - bool: true if the key exists in the map, false otherwise
 func ContainsKey(m map[string][]string, key string) bool {
 	isPresent := false
 
-	for k, _ := range m {
+	for k := range m {
 		if key == k {
 			isPresent = true
 			break

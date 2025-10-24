@@ -1,3 +1,4 @@
+// Package metrics contains all the custom metrics defined for the API.
 package metrics
 
 import (

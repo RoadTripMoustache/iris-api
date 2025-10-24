@@ -1,3 +1,4 @@
+// Package mocks contains all the tools and models to mock data
 package mocks
 
 import (

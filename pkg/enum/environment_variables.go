@@ -1,3 +1,4 @@
+// Package enum contains all the enumerations used in this project
 package enum
 
 const (

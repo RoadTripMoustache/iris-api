@@ -1,3 +1,4 @@
+// Package dbmodels contains all the DB models
 package dbmodels
 
 import (

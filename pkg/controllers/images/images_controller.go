@@ -1,3 +1,4 @@
+// Package images contains all the methods of the Images controller.
 package images
 
 import (

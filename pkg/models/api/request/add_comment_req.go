@@ -1,3 +1,4 @@
+// Package request contains all the object models of requests
 package request
 
 type AddCommentReq struct {

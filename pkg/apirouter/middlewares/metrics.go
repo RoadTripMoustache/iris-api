@@ -25,13 +25,13 @@ func AfterMetricsMiddleware(next http.Handler) http.Handler {
 		if len(authorizationHeader) > 8 {
 			authorizationHeader = authorizationHeader[7:]
 		}
-		userId := "not_logged_user"
+		userID := "not_logged_user"
 		var token *auth2.Token = nil
 		if !strings.HasPrefix(r.URL.Path, "/v1/stripe/notify") {
 			token = auth.GetInstance().VerifyIDToken(authorizationHeader)
 		}
 		if token != nil {
-			userId = token.Subject
+			userID = token.Subject
 		}
 
 		uri := strings.Split(r.RequestURI, "?")[0]
@@ -40,7 +40,7 @@ func AfterMetricsMiddleware(next http.Handler) http.Handler {
 			r.Method,
 			uri,
 			fmt.Sprintf("%d", rec.Status),
-			userId,
+			userID,
 		).Inc()
 
 		duration := time.Since(startTime).Seconds()

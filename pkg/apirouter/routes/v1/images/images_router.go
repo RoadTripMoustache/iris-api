@@ -1,3 +1,4 @@
+// Package images contains all `v1/images/` API routes definitions.
 package images
 
 import (

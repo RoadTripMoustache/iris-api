@@ -1,3 +1,4 @@
+// Package constantes contains all the const for the project.
 package constantes
 
 const (

@@ -1,3 +1,4 @@
+// Package ideas contains all the methods of the IdeaService
 package ideas
 
 import (

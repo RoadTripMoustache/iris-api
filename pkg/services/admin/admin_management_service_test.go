@@ -14,7 +14,6 @@ import (
 func Test_GetAdmin(t *testing.T) {
 	testCases := []struct {
 		caseDesc       string
-		voyageId       string
 		dbResult       []map[string]interface{}
 		queryParams    map[string][]string
 		expectedResult *dbmodels.Admin
@@ -22,7 +21,6 @@ func Test_GetAdmin(t *testing.T) {
 	}{
 		{
 			caseDesc:       "Empty DB",
-			voyageId:       "empty",
 			dbResult:       []map[string]interface{}{},
 			queryParams:    nil,
 			expectedResult: nil,
@@ -30,7 +28,6 @@ func Test_GetAdmin(t *testing.T) {
 		},
 		{
 			caseDesc:    "Not empty DB",
-			voyageId:    "toto_uuid",
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
@@ -38,7 +35,7 @@ func Test_GetAdmin(t *testing.T) {
 				},
 			},
 			expectedResult: &dbmodels.Admin{
-				UserId: "toto",
+				UserID: "toto",
 			},
 			exprectedErr: nil,
 		},
@@ -57,7 +54,7 @@ func Test_GetAdmin(t *testing.T) {
 			mNoSQLStorageInstance.
 				On("GetFirstDocument", dbmodels.AdminCollectionName,
 					[]utils.Filter{{
-						Param:    dbmodels.AdminUserIdLabel,
+						Param:    dbmodels.AdminUserIDLabel,
 						Operator: "==",
 						Value:    "totoU",
 					}}).
@@ -83,7 +80,6 @@ func Test_GetAdmin(t *testing.T) {
 func Test_GetAdmins(t *testing.T) {
 	testCases := []struct {
 		caseDesc       string
-		voyageId       string
 		dbResult       []map[string]interface{}
 		queryParams    map[string][]string
 		expectedResult []*dbmodels.Admin
@@ -91,7 +87,6 @@ func Test_GetAdmins(t *testing.T) {
 	}{
 		{
 			caseDesc:       "Empty DB",
-			voyageId:       "empty",
 			dbResult:       []map[string]interface{}{},
 			queryParams:    nil,
 			expectedResult: nil,
@@ -99,7 +94,6 @@ func Test_GetAdmins(t *testing.T) {
 		},
 		{
 			caseDesc:    "1 item",
-			voyageId:    "toto_uuid",
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
@@ -108,14 +102,13 @@ func Test_GetAdmins(t *testing.T) {
 			},
 			expectedResult: []*dbmodels.Admin{
 				{
-					UserId: "toto",
+					UserID: "toto",
 				},
 			},
 			exprectedErr: nil,
 		},
 		{
 			caseDesc:    "2 items",
-			voyageId:    "toto_uuid",
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
@@ -127,10 +120,10 @@ func Test_GetAdmins(t *testing.T) {
 			},
 			expectedResult: []*dbmodels.Admin{
 				{
-					UserId: "toto",
+					UserID: "toto",
 				},
 				{
-					UserId: "titi",
+					UserID: "titi",
 				},
 			},
 			exprectedErr: nil,
@@ -181,7 +174,7 @@ func Test_AddAdmin(t *testing.T) {
 		UserID: "toto",
 	}
 	expectedResult := dbmodels.Admin{
-		UserId: "titi",
+		UserID: "titi",
 	}
 
 	mNoSQLStorageInstance := new(services.MockNoSQLStorageInstance)
@@ -193,7 +186,7 @@ func Test_AddAdmin(t *testing.T) {
 	mNoSQLStorageInstance.
 		On("GetFirstDocument", dbmodels.AdminCollectionName,
 			[]utils.Filter{{
-				Param:    dbmodels.AdminUserIdLabel,
+				Param:    dbmodels.AdminUserIDLabel,
 				Operator: "==",
 				Value:    "titi",
 			}}).
@@ -220,7 +213,7 @@ func Test_DeleteAdmin(t *testing.T) {
 	mNoSQLStorageInstance := new(services.MockNoSQLStorageInstance)
 	var nilError error
 	mNoSQLStorageInstance.
-		On("Delete", dbmodels.AdminCollectionName, "titi", dbmodels.AdminUserIdLabel).
+		On("Delete", dbmodels.AdminCollectionName, "titi", dbmodels.AdminUserIDLabel).
 		Return(nilError)
 
 	mockNoSQLStorageService := new(services.MockNoSQLStorage)

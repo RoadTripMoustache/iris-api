@@ -1,3 +1,4 @@
+// Package admin contains all the DB models for admin resources
 package admin
 
 import (
@@ -7,16 +8,16 @@ import (
 
 const (
 	AdminCollectionName string = "admins"
-	AdminUserIdLabel    string = "user_id"
+	AdminUserIDLabel    string = "user_id"
 )
 
 type Admin struct {
-	UserId string `json:"user_id"`
+	UserID string `json:"user_id"`
 }
 
 func (a *Admin) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"user_id": a.UserId,
+		"user_id": a.UserID,
 	}
 }
 
@@ -30,7 +31,7 @@ func AdminFromMap(m map[string]interface{}) *Admin {
 
 func ToAdminModel(admin Admin) models.Admin {
 	modelAdmin := models.Admin{
-		UserId: admin.UserId,
+		UserID: admin.UserID,
 	}
 
 	return modelAdmin

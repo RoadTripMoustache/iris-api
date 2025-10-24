@@ -1,3 +1,4 @@
+// Package validators contains all the validation tools for the router
 package validators
 
 import (
@@ -7,6 +8,7 @@ import (
 	"github.com/RoadTripMoustache/iris_api/pkg/services/admin"
 )
 
+// IsAdmin - Validate if the current user is an admin. Returns an EnhancedError if not.
 func IsAdmin(ctx utils.Context) *errors.EnhancedError {
 	user, err := admin.GetAdmin(ctx, ctx.UserID)
 	if err != nil {

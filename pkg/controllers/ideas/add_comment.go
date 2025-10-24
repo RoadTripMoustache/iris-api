@@ -1,3 +1,4 @@
+// Package ideas contains all the methods of the Idea controller.
 package ideas
 
 import (

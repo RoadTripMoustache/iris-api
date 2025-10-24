@@ -1,3 +1,4 @@
+// Package admin contains all the mocked admin services
 package admin
 
 import (
@@ -12,8 +13,8 @@ type MockAdminManagementService struct {
 	mock.Mock
 }
 
-func (m *MockAdminManagementService) GetAdmin(ctx utils.Context, userId string) (*dbmodels.Admin, *errors.EnhancedError) {
-	args := m.Called(ctx, userId)
+func (m *MockAdminManagementService) GetAdmin(ctx utils.Context, userID string) (*dbmodels.Admin, *errors.EnhancedError) {
+	args := m.Called(ctx, userID)
 	var activity *dbmodels.Admin
 	if args.Get(0) != nil {
 		activity = args.Get(0).(*dbmodels.Admin)
@@ -38,8 +39,8 @@ func (m *MockAdminManagementService) GetAdmins(ctx utils.Context) ([]*dbmodels.A
 	return admins, enhancedError
 }
 
-func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
-	args := m.Called(ctx, userId)
+func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
+	args := m.Called(ctx, userID)
 	var enhancedError *errors.EnhancedError
 	if args.Get(0) != nil {
 		enhancedError = args.Get(0).(*errors.EnhancedError)
@@ -47,8 +48,8 @@ func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userId string) 
 	return enhancedError
 }
 
-func (m *MockAdminManagementService) DeleteAdmin(ctx utils.Context, userId string) *errors.EnhancedError {
-	args := m.Called(ctx, userId)
+func (m *MockAdminManagementService) DeleteAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
+	args := m.Called(ctx, userID)
 	var enhancedError *errors.EnhancedError
 	if args.Get(0) != nil {
 		enhancedError = args.Get(0).(*errors.EnhancedError)

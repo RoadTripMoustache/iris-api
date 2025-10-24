@@ -1,5 +1,6 @@
+// Package admin contains all the object models for admin processes
 package admin
 
 type Admin struct {
-	UserId string `json:"user_id"`
+	UserID string `json:"user_id"`
 }

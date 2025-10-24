@@ -99,7 +99,7 @@ func (m *MockClient) getDataFromMockFiles(collection string, filters []nosqlUtil
 func getIDLabel(collection string) string {
 	switch collection {
 	case admin.AdminCollectionName:
-		return admin.AdminUserIdLabel
+		return admin.AdminUserIDLabel
 	}
 	return "uuid"
 }
