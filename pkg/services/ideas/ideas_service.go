@@ -63,6 +63,26 @@ func ListIdeas(ctx apiUtils.Context) ([]models.Idea, *appErrors.EnhancedError) {
 	return ideas, nil
 }
 
+// GetIdea returns a single idea by id with user_has_voted computed
+func GetIdea(ctx apiUtils.Context, ideaID string) (*models.Idea, *appErrors.EnhancedError) {
+	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
+	if len(doc) == 0 {
+		return nil, appErrors.New(enum.ResourceNotFound, "idea")
+	}
+	b, _ := bson.Marshal(doc[0])
+	var idea models.Idea
+	_ = bson.Unmarshal(b, &idea)
+	if idea.Voters != nil && ctx.UserID != "" {
+		for _, v := range idea.Voters {
+			if v == ctx.UserID {
+				idea.UserHasVoted = true
+				break
+			}
+		}
+	}
+	return &idea, nil
+}
+
 func Vote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "_id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {

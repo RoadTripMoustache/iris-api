@@ -33,6 +33,14 @@ func (p *IdeasRouter) InitRoutes() {
 		http.StatusOK,
 		ctrl.ListIdeas,
 	)
+	// Get one idea (full details)
+	middlewares.AddRoute(
+		p.MuxRouter,
+		http.MethodGet,
+		p.Path+"/{id}",
+		http.StatusOK,
+		ctrl.GetIdea,
+	)
 	// Create idea
 	middlewares.AddRoute(
 		p.MuxRouter,

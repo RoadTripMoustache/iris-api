@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Iris API
   description: API permettant de gérer les idées, votes et commentaires.
-  version: 0.2.0
+  version: 0.3.0
 servers:
   - url: https://api.example.com
     description: Serveur de production (exemple)
@@ -72,7 +72,7 @@ paths:
   /v1/ideas:
     get:
       summary: Lister les idées
-      description: Retourne une liste paginée des idées.
+      description: Retourne une liste paginée des idées. Ne retourne pas les champs voters, comments et images.
       tags: [Ideas]
       parameters:
         - $ref: '#/components/parameters/PageNumber'
@@ -83,9 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Idea'
+                $ref: '#/components/schemas/IdeasListResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
     post:
@@ -100,6 +98,26 @@ paths:
       responses:
         '201':
           description: Idée créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /v1/ideas/{id}:
+    get:
+      summary: Récupérer une idée
+      description: Retourne l'idée complète avec tous les détails (voters, comments, images...)
+      tags: [Ideas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détail de l'idée
           content:
             application/json:
               schema:
@@ -276,6 +294,62 @@ components:
           schema:
             $ref: '#/components/schemas/EnhancedError'
   schemas:
+    Links:
+      type: object
+      properties:
+        first:
+          type: string
+          format: uri
+        previous:
+          type: string
+          format: uri
+        self:
+          type: string
+          format: uri
+        next:
+          type: string
+          format: uri
+        last:
+          type: string
+          format: uri
+        has_more:
+          type: boolean
+      required: [has_more]
+    IdeasListResponse:
+      type: object
+      properties:
+        links:
+          $ref: '#/components/schemas/Links'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeaListItem'
+      required: [links, data]
+    IdeaListItem:
+      type: object
+      description: Idée (version liste) sans les champs lourds voters/comments/images
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        title:
+          type: string
+        description:
+          type: string
+        tag:
+          $ref: '#/components/schemas/IdeaTag'
+        creator_id:
+          type: string
+        votes_count:
+          type: integer
+        is_open:
+          type: boolean
+        user_has_voted:
+          type: boolean
+          description: Présent uniquement pour l'utilisateur authentifié
+      required: [id, created_at, title, description, tag, creator_id, votes_count, is_open]
     IdeaTag:
       type: string
       description: Catégorie de l'idée

@@ -1,7 +1,7 @@
 version: '3'
 
 env:
-  SERVER_EXPOSE: "0.0.0.0:8080"
+  SERVER_EXPOSE: "0.0.0.0:8081"
   METRICS_SERVER_EXPOSE: "0.0.0.0:2121"
 
 tasks:

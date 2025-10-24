@@ -97,13 +97,48 @@ func ListIdeas(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	if e != nil {
 		return nil, e
 	}
+	// Build lightweight list items without voters, comments, images
+	type listIdea struct {
+		ID           string         `json:"id"`
+		CreatedAt    interface{}    `json:"created_at"`
+		Title        string         `json:"title"`
+		Description  string         `json:"description"`
+		Tag          models.IdeaTag `json:"tag"`
+		CreatorID    string         `json:"creator_id"`
+		VotesCount   int            `json:"votes_count"`
+		IsOpen       bool           `json:"is_open"`
+		UserHasVoted bool           `json:"user_has_voted,omitempty"`
+	}
+	out := make([]listIdea, 0, len(list))
+	for _, it := range list {
+		out = append(out, listIdea{
+			ID:           it.ID,
+			CreatedAt:    it.CreatedAt,
+			Title:        it.Title,
+			Description:  it.Description,
+			Tag:          it.Tag,
+			CreatorID:    it.CreatorID,
+			VotesCount:   it.VotesCount,
+			IsOpen:       it.IsOpen,
+			UserHasVoted: it.UserHasVoted,
+		})
+	}
 	// total number of items in the resource (across all pages)
 	countPtr := nosql.GetInstance().Count("ideas", []nosqlUtils.Filter{})
 	total := 0
 	if countPtr != nil {
 		total = *countPtr
 	}
-	return utils.PrepareListResponse(ctx, list, total)
+	return utils.PrepareListResponse(ctx, out, total)
+}
+
+func GetIdea(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
+	ideaID := ctx.Vars["id"]
+	idea, e := ideas.GetIdea(ctx, ideaID)
+	if e != nil {
+		return nil, e
+	}
+	return utils.PrepareResponse(idea)
 }
 
 func VoteIdea(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {

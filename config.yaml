@@ -8,7 +8,7 @@ firebase:
 database:
   mongo:
     uri: "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
-    name: "guide-nestor"
+    name: "iris"
     private_key: "D:\\workspace\\NestorTravel\\iris_api\\tmp\\db_private.key"
     public_key: "D:\\workspace\\NestorTravel\\iris_api\\tmp\\db_public.key"
   mock:
