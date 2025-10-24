@@ -11,8 +11,6 @@ type DatabaseMockConfig struct {
 }
 
 type DatabaseMongoConfig struct {
-	URI        *string `yaml:"uri" envconfig:"DATABASE_MONGO_URI"`
-	Name       *string `yaml:"name" envconfig:"DATABASE_MONGO_NAME"`
-	PrivateKey *string `yaml:"private_key" envconfig:"DATABASE_MONGO_PRIVATE_KEY"`
-	PublicKey  *string `yaml:"public_key" envconfig:"DATABASE_MONGO_PUBLIC_KEY"`
+	URI  *string `yaml:"uri" envconfig:"DATABASE_MONGO_URI"`
+	Name *string `yaml:"name" envconfig:"DATABASE_MONGO_NAME"`
 }

@@ -22,6 +22,7 @@ var filenameSafeRegexp = regexp.MustCompile(`^[A-Za-z0-9._-]+$`)
 
 // UploadImage handles POST /v1/images
 // Expects multipart/form-data with field name "file"
+// TODO : Refacto
 func UploadImage(w http.ResponseWriter, r *http.Request) {
 	// Enforce max upload size: 2MB
 	r.Body = http.MaxBytesReader(w, r.Body, constantes.MaxImageSizeBytes)
@@ -93,6 +94,7 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetImage handles GET /images/{filename}
+// TODO : Refacto
 func GetImage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["filename"]
@@ -104,6 +106,7 @@ func GetImage(w http.ResponseWriter, r *http.Request) {
 	cfg := config.GetConfigs().Server
 	path := filepath.Join(cfg.ImagesDir, name)
 	f, err := os.Open(path)
+	fmt.Println(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			w.WriteHeader(http.StatusNotFound)

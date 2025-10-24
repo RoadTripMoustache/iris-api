@@ -96,11 +96,5 @@ func checkConfig(cfg *Config) {
 		if !cfg.Database.Mock.Enabled && cfg.Database.Mongo.Name == nil {
 			utils.ProcessError(fmt.Errorf("MongoDB Name must be defined"))
 		}
-		if !cfg.Database.Mock.Enabled && cfg.Database.Mongo.PublicKey == nil {
-			utils.ProcessError(fmt.Errorf("MongoDB Public Key must be defined"))
-		}
-		if !cfg.Database.Mock.Enabled && cfg.Database.Mongo.PrivateKey == nil {
-			utils.ProcessError(fmt.Errorf("MongoDB Private Key must be defined"))
-		}
 	}
 }

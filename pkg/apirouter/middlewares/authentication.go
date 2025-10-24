@@ -18,12 +18,10 @@ func AuthenticationMiddleware(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 			return
 		}
+
+		cfg := config.GetConfigs().Server
 		// Allow public access to image retrieval endpoint
-		imagesBase := config.GetConfigs().Server.ImagesBaseURL
-		if imagesBase == "" {
-			imagesBase = "/images"
-		}
-		if strings.HasPrefix(r.URL.Path, imagesBase) && r.Method == http.MethodGet {
+		if strings.HasPrefix(r.URL.Path, cfg.ImagesBaseURL) && r.Method == http.MethodGet {
 			next.ServeHTTP(w, r)
 			return
 		}

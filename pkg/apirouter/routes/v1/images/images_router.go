@@ -20,4 +20,5 @@ func New(router *mux.Router, basePath string) *ImagesRouter {
 
 func (r *ImagesRouter) InitRoutes() {
 	r.MuxRouter.HandleFunc(r.Path, imagesController.UploadImage).Methods("POST")
+	r.MuxRouter.HandleFunc(r.Path+"/{filename}", imagesController.GetImage).Methods("GET")
 }
