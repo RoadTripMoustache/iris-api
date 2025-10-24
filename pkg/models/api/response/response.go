@@ -1,4 +1,4 @@
-package api
+package response
 
 type Response struct {
 	Links Links       `json:"links"`

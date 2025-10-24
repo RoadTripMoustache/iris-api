@@ -1,4 +1,4 @@
-package api
+package response
 
 import (
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"

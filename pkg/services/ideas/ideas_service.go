@@ -1,13 +1,14 @@
 package ideas
 
 import (
+	"github.com/RoadTripMoustache/iris_api/pkg/constantes"
 	"strings"
 	"time"
 
 	apiUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/dbmodels"
 	"github.com/RoadTripMoustache/iris_api/pkg/enum"
 	appErrors "github.com/RoadTripMoustache/iris_api/pkg/errors"
-	"github.com/RoadTripMoustache/iris_api/pkg/models"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	nosql "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage"
 	nosqlUtils "github.com/RoadTripMoustache/iris_api/pkg/tools/nosqlstorage/utils"
@@ -17,14 +18,14 @@ import (
 
 const collection = "ideas"
 
-func CreateIdea(ctx apiUtils.Context, title string, description string, tag models.IdeaTag, creatorID string, images []string) (*models.Idea, *appErrors.EnhancedError) {
-	if title == "" || (tag != models.IdeaTagBug && tag != models.IdeaTagEnhancement) {
+func CreateIdea(ctx apiUtils.Context, title string, description string, tag enum.IdeaTag, creatorID string, images []string) (*dbmodels.Idea, *appErrors.EnhancedError) {
+	if title == "" || (tag != enum.IdeaTagBug && tag != enum.IdeaTagEnhancement) {
 		return nil, appErrors.New(enum.BadRequest, "invalid title or tag")
 	}
-	if len(images) > models.MaxImagesPerEntity {
+	if len(images) > constantes.MaxImagesPerEntity {
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
-	idea := &models.Idea{
+	idea := &dbmodels.Idea{
 		ID:          primitive.NewObjectID().Hex(),
 		CreatedAt:   time.Now().UTC(),
 		Title:       title,
@@ -33,7 +34,7 @@ func CreateIdea(ctx apiUtils.Context, title string, description string, tag mode
 		CreatorID:   creatorID,
 		VotesCount:  0,
 		Voters:      []string{},
-		Comments:    []models.Comment{},
+		Comments:    []dbmodels.Comment{},
 		Images:      images,
 		IsOpen:      true,
 	}
@@ -44,12 +45,12 @@ func CreateIdea(ctx apiUtils.Context, title string, description string, tag mode
 	return idea, nil
 }
 
-func ListIdeas(ctx apiUtils.Context) ([]models.Idea, *appErrors.EnhancedError) {
+func ListIdeas(ctx apiUtils.Context) ([]dbmodels.Idea, *appErrors.EnhancedError) {
 	docs := nosql.GetInstance().GetDocumentsOrderBy(collection, bson.D{{Key: "created_at", Value: -1}}, ctx.Pagination.PageSize, ctx.Pagination.GetOffset(), []nosqlUtils.Filter{})
-	ideas := make([]models.Idea, 0, len(docs))
+	ideas := make([]dbmodels.Idea, 0, len(docs))
 	for _, d := range docs {
 		b, _ := bson.Marshal(d)
-		var idea models.Idea
+		var idea dbmodels.Idea
 		_ = bson.Unmarshal(b, &idea)
 		if idea.Voters != nil && ctx.UserID != "" {
 			for _, v := range idea.Voters {
@@ -65,13 +66,13 @@ func ListIdeas(ctx apiUtils.Context) ([]models.Idea, *appErrors.EnhancedError) {
 }
 
 // GetIdea returns a single idea by id with user_has_voted computed
-func GetIdea(ctx apiUtils.Context, ideaID string) (*models.Idea, *appErrors.EnhancedError) {
+func GetIdea(ctx apiUtils.Context, ideaID string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	if idea.Voters != nil && ctx.UserID != "" {
 		for _, v := range idea.Voters {
@@ -84,13 +85,13 @@ func GetIdea(ctx apiUtils.Context, ideaID string) (*models.Idea, *appErrors.Enha
 	return &idea, nil
 }
 
-func Vote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *appErrors.EnhancedError) {
+func Vote(ctx apiUtils.Context, ideaID string, userID string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	for _, v := range idea.Voters {
 		if v == userID {
@@ -105,13 +106,13 @@ func Vote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *ap
 	return &idea, nil
 }
 
-func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *appErrors.EnhancedError) {
+func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	newVoters := make([]string, 0, len(idea.Voters))
 	for _, v := range idea.Voters {
@@ -127,11 +128,11 @@ func Unvote(ctx apiUtils.Context, ideaID string, userID string) (*models.Idea, *
 	return &idea, nil
 }
 
-func AddComment(ctx apiUtils.Context, ideaID string, userID string, message string, images []string) (*models.Idea, *appErrors.EnhancedError) {
+func AddComment(ctx apiUtils.Context, ideaID string, userID string, message string, images []string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	if strings.TrimSpace(message) == "" {
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
-	if len(images) > models.MaxImagesPerEntity {
+	if len(images) > constantes.MaxImagesPerEntity {
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
@@ -139,9 +140,9 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
-	comment := models.Comment{
+	comment := dbmodels.Comment{
 		ID:        primitive.NewObjectID().Hex(),
 		CreatedAt: time.Now().UTC(),
 		UserID:    userID,
@@ -156,13 +157,13 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 }
 
 // SetIdeaOpen updates the open state of an idea
-func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*models.Idea, *appErrors.EnhancedError) {
+func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	idea.IsOpen = isOpen
 	if err := nosql.GetInstance().Update(collection, idea.ID, "_id", map[string]interface{}{"is_open": idea.IsOpen}); err != nil {
@@ -172,11 +173,11 @@ func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*models.Idea
 }
 
 // EditComment updates a user's own comment on an idea
-func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string, images []string) (*models.Idea, *appErrors.EnhancedError) {
+func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string, images []string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	if strings.TrimSpace(message) == "" {
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
-	if len(images) > models.MaxImagesPerEntity {
+	if len(images) > constantes.MaxImagesPerEntity {
 		return nil, appErrors.New(enum.BadRequest, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
@@ -184,7 +185,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	found := false
 	for i, c := range idea.Comments {
@@ -208,13 +209,13 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 }
 
 // DeleteComment removes a user's own comment from an idea
-func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*models.Idea, *appErrors.EnhancedError) {
+func DeleteComment(ctx apiUtils.Context, ideaID, commentID, userID string) (*dbmodels.Idea, *appErrors.EnhancedError) {
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
 		return nil, appErrors.New(enum.ResourceNotFound, "idea")
 	}
 	b, _ := bson.Marshal(doc[0])
-	var idea models.Idea
+	var idea dbmodels.Idea
 	_ = bson.Unmarshal(b, &idea)
 	idx := -1
 	for i, c := range idea.Comments {

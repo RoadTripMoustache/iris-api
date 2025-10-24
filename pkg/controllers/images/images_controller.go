@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/RoadTripMoustache/iris_api/pkg/config"
+	"github.com/RoadTripMoustache/iris_api/pkg/constantes"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"github.com/gorilla/mux"
 	"io"
@@ -22,10 +23,9 @@ var filenameSafeRegexp = regexp.MustCompile(`^[A-Za-z0-9._-]+$`)
 // Expects multipart/form-data with field name "file"
 func UploadImage(w http.ResponseWriter, r *http.Request) {
 	// Enforce max upload size: 2MB
-	const maxSize = 2 * 1024 * 1024 // 2MB
-	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
+	r.Body = http.MaxBytesReader(w, r.Body, constantes.MaxImageSizeBytes)
 
-	if err := r.ParseMultipartForm(maxSize); err != nil {
+	if err := r.ParseMultipartForm(constantes.MaxImageSizeBytes); err != nil {
 		w.WriteHeader(http.StatusRequestEntityTooLarge)
 		_, _ = w.Write([]byte("file too large"))
 		return
@@ -72,7 +72,7 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	if written > maxSize {
+	if written > constantes.MaxImageSizeBytes {
 		// Safety check if client bypassed MaxBytesReader somehow
 		w.WriteHeader(http.StatusRequestEntityTooLarge)
 		_, _ = w.Write([]byte("file too large"))
