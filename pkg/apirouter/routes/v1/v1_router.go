@@ -2,6 +2,7 @@
 package v1
 
 import (
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1/admin"
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1/ideas"
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/routes/v1/images"
 	"github.com/gorilla/mux"
@@ -24,4 +25,6 @@ func New(router *mux.Router) *APIV1Router {
 func (a *APIV1Router) InitRoutes() {
 	ideas.New(a.MuxRouter, a.Path).InitRoutes()
 	images.New(a.MuxRouter, a.Path).InitRoutes()
+	// Admin routes
+	admin.New(a.MuxRouter, a.Path).InitRoutes()
 }

@@ -11,6 +11,24 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /v1/admin/me:
+    get:
+      summary: Savoir si l'utilisateur connecté est admin
+      description: Retourne un booléen indiquant si l'utilisateur authentifié possède des droits administrateur.
+      tags: [Admin]
+      responses:
+        '200':
+          description: Statut admin de l'utilisateur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_admin:
+                    type: boolean
+                required: [is_admin]
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /v1/images:
     post:
       summary: Importer une image
