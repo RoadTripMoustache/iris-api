@@ -2,6 +2,6 @@
 package constantes
 
 const (
-	MaxImagesPerEntity = 5
+	MaxImagesPerEntity = 1
 	MaxImageSizeBytes  = 2 * 1024 * 1024 // 2MB
 )

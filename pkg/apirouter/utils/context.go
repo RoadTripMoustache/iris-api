@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"io"
+	"net/http"
 )
 
 type ContextKey string
@@ -26,6 +27,7 @@ type Context struct {
 	Path          string
 	Method        string
 	RequestURI    string
+	Request       *http.Request
 }
 
 func (c Context) Clone() Context {

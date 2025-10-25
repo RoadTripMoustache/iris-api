@@ -10,7 +10,7 @@ import (
 
 func validateImages(urls []string) *errors.EnhancedError {
 	if len(urls) > constantes.MaxImagesPerEntity {
-		return errors.New(enum.BadRequest, "too many images")
+		return errors.New(enum.TooManyImages, "too many images")
 	}
 	for _, u := range urls {
 		ext := strings.ToLower(filepath.Ext(u))

@@ -2,8 +2,10 @@
 package images
 
 import (
+	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/middlewares"
 	imagesController "github.com/RoadTripMoustache/iris_api/pkg/controllers/images"
 	"github.com/gorilla/mux"
+	"net/http"
 )
 
 type ImagesRouter struct {
@@ -19,6 +21,12 @@ func New(router *mux.Router, basePath string) *ImagesRouter {
 }
 
 func (r *ImagesRouter) InitRoutes() {
-	r.MuxRouter.HandleFunc(r.Path, imagesController.UploadImage).Methods("POST")
+	middlewares.AddRoute(
+		r.MuxRouter,
+		http.MethodPost,
+		r.Path,
+		http.StatusOK,
+		imagesController.UploadImage,
+	)
 	r.MuxRouter.HandleFunc(r.Path+"/{filename}", imagesController.GetImage).Methods("GET")
 }

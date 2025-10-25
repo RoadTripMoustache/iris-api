@@ -11,8 +11,6 @@ type ErrorKind struct {
 var (
 	// AuthUnauthorized - When a user tries to access a resource without the correct permission.
 	AuthUnauthorized = "AUTH001"
-	// NotPremium - When a user tries to use a premium feature without being premium.
-	NotPremium = "PRE000"
 )
 
 // ----- RESOURCE ----- //
@@ -21,6 +19,14 @@ var (
 	ResourceNotFound = "RES000"
 	// IDAlreadyUsed - When the id of a new resource is already used.
 	IDAlreadyUsed = "RES001"
+)
+
+// >> IMAGES
+var (
+	ImageTooLarge            = "IMG000"
+	ImageExtensionNotAllowed = "IMG001"
+	ImageEmptyName           = "IMG002"
+	TooManyImages            = "IMG003"
 )
 
 // ----- REQUESTS ----- //
@@ -45,22 +51,11 @@ var (
 	PermissionsAlreadyGranted = "ADM000"
 )
 
-// ----- SHOP ----- //
-var (
-	// NotEnoughCoins - When a user tries to buy something but doesn't enough coins.
-	NotEnoughCoins = "SHO000"
-)
-
 var ErrorKinds = map[string]ErrorKind{
 	// ----- AUTH ----- //
 	AuthUnauthorized: {
 		HTTPCode:     http.StatusUnauthorized,
 		ErrorMessage: "Unauthorized user",
-	},
-	// > PREMIUM
-	NotPremium: {
-		HTTPCode:     http.StatusUnauthorized,
-		ErrorMessage: "You need premium privileges to do this action",
 	},
 
 	// ----- RESOURCE ----- //
@@ -71,6 +66,23 @@ var ErrorKinds = map[string]ErrorKind{
 	IDAlreadyUsed: {
 		HTTPCode:     http.StatusBadRequest,
 		ErrorMessage: "Id already used",
+	},
+	// >> IMAGES
+	ImageTooLarge: {
+		HTTPCode:     http.StatusBadRequest,
+		ErrorMessage: "Image too large",
+	},
+	ImageExtensionNotAllowed: {
+		HTTPCode:     http.StatusBadRequest,
+		ErrorMessage: "Image extension not allowed.",
+	},
+	ImageEmptyName: {
+		HTTPCode:     http.StatusBadRequest,
+		ErrorMessage: "Image name is empty.",
+	},
+	TooManyImages: {
+		HTTPCode:     http.StatusBadRequest,
+		ErrorMessage: "Too many images",
 	},
 
 	// ----- REQUESTS ----- //
@@ -97,11 +109,5 @@ var ErrorKinds = map[string]ErrorKind{
 	PermissionsAlreadyGranted: {
 		HTTPCode:     http.StatusBadRequest,
 		ErrorMessage: "Invalid request",
-	},
-
-	// ----- SHOP ----- //
-	NotEnoughCoins: {
-		HTTPCode:     http.StatusBadRequest,
-		ErrorMessage: "Not enough coins to do the transaction",
 	},
 }

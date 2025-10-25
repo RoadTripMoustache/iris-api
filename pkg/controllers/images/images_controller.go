@@ -2,10 +2,13 @@
 package images
 
 import (
-	"encoding/json"
 	"fmt"
+	apiUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
 	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	"github.com/RoadTripMoustache/iris_api/pkg/constantes"
+	"github.com/RoadTripMoustache/iris_api/pkg/controllers/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/enum"
+	"github.com/RoadTripMoustache/iris_api/pkg/errors"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"github.com/gorilla/mux"
 	"io"
@@ -22,38 +25,26 @@ var filenameSafeRegexp = regexp.MustCompile(`^[A-Za-z0-9._-]+$`)
 
 // UploadImage handles POST /v1/images
 // Expects multipart/form-data with field name "file"
-// TODO : Refacto
-func UploadImage(w http.ResponseWriter, r *http.Request) {
-	// Enforce max upload size: 2MB
-	r.Body = http.MaxBytesReader(w, r.Body, constantes.MaxImageSizeBytes)
-
-	if err := r.ParseMultipartForm(constantes.MaxImageSizeBytes); err != nil {
-		w.WriteHeader(http.StatusRequestEntityTooLarge)
-		_, _ = w.Write([]byte("file too large"))
-		return
+func UploadImage(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
+	if err := ctx.Request.ParseMultipartForm(constantes.MaxImageSizeBytes); err != nil {
+		return nil, errors.New(enum.ImageTooLarge, err)
 	}
 
-	file, header, err := r.FormFile("file")
+	file, header, err := ctx.Request.FormFile("file")
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		_, _ = w.Write([]byte("missing file field"))
-		return
+		return nil, errors.New(enum.ResourceNotFound, err)
 	}
 	defer file.Close()
 
 	ext := strings.ToLower(filepath.Ext(header.Filename))
 	if ext != ".jpg" && ext != ".png" {
-		w.WriteHeader(http.StatusBadRequest)
-		_, _ = w.Write([]byte("invalid file type; only .jpg and .png are allowed"))
-		return
+		return nil, errors.New(enum.ImageExtensionNotAllowed, err)
 	}
 
 	cfg := config.GetConfigs().Server
 	// Ensure destination directory exists
 	if err := os.MkdirAll(cfg.ImagesDir, 0o755); err != nil {
-		logging.Error(err, nil)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return nil, errors.New(enum.InternalServerError, err)
 	}
 
 	// Generate a unique filename
@@ -63,38 +54,29 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	dst, err := os.Create(dstPath)
 	if err != nil {
 		logging.Error(err, nil)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return nil, errors.New(enum.InternalServerError, err)
 	}
 	defer dst.Close()
 
 	written, err := io.Copy(dst, file)
 	if err != nil {
 		logging.Error(err, nil)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return nil, errors.New(enum.InternalServerError, err)
 	}
 	if written > constantes.MaxImageSizeBytes {
 		// Safety check if client bypassed MaxBytesReader somehow
-		w.WriteHeader(http.StatusRequestEntityTooLarge)
-		_, _ = w.Write([]byte("file too large"))
 		_ = os.Remove(dstPath)
-		return
+		return nil, errors.New(enum.ImageTooLarge, err)
 	}
 
 	// Build public URL using ImagesBaseURL
 	base := strings.TrimRight(cfg.ImagesBaseURL, "/")
 	publicURL := fmt.Sprintf("%s/%s", base, filename)
 
-	resp := map[string]string{"url": publicURL}
-	b, _ := json.Marshal(resp)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	_, _ = w.Write(b)
+	return utils.PrepareResponse(map[string]string{"url": publicURL})
 }
 
 // GetImage handles GET /images/{filename}
-// TODO : Refacto
 func GetImage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["filename"]

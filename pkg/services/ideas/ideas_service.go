@@ -24,7 +24,7 @@ func CreateIdea(ctx apiUtils.Context, title string, description string, tag enum
 		return nil, appErrors.New(enum.BadRequest, "invalid title or tag")
 	}
 	if len(images) > constantes.MaxImagesPerEntity {
-		return nil, appErrors.New(enum.BadRequest, "too many images")
+		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	idea := &dbmodels.Idea{
 		ID:          primitive.NewObjectID().Hex(),
@@ -134,7 +134,7 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
 	if len(images) > constantes.MaxImagesPerEntity {
-		return nil, appErrors.New(enum.BadRequest, "too many images")
+		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {
@@ -179,7 +179,7 @@ func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
 	if len(images) > constantes.MaxImagesPerEntity {
-		return nil, appErrors.New(enum.BadRequest, "too many images")
+		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
 	if len(doc) == 0 {

@@ -49,5 +49,6 @@ func GenerateContext(r *http.Request, method string, path string) routerUtils.Co
 		Method:        method,
 		RequestURI:    r.RequestURI,
 		Path:          path,
+		Request:       r,
 	}
 }
