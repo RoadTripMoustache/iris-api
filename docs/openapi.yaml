@@ -59,6 +59,20 @@ paths:
                 required: [url]
         default:
           $ref: '#/components/responses/ErrorResponse'
+  /v1/images/config:
+    get:
+      summary: Récupérer la configuration des images
+      description: Retourne la configuration utilisée par l'API pour la gestion des images.
+      tags: [Images]
+      responses:
+        '200':
+          description: Configuration des images
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImagesConfig'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /images/{filename}:
     get:
       summary: Récupérer une image
@@ -471,3 +485,18 @@ components:
         details:
           description: Informations additionnelles liées à l'erreur
       required: [error_code]
+    ImagesConfig:
+      type: object
+      properties:
+        max_images_per_idea:
+          type: integer
+        max_images_per_comment:
+          type: integer
+        max_size:
+          type: integer
+          description: Taille maximale autorisée des images en octets
+        accepted_extensions:
+          type: array
+          items:
+            type: string
+      required: [max_images_per_idea, max_images_per_comment, max_size, accepted_extensions]

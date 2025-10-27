@@ -28,5 +28,6 @@ func (r *ImagesRouter) InitRoutes() {
 		http.StatusOK,
 		imagesController.UploadImage,
 	)
+	// Get a public image by filename
 	r.MuxRouter.HandleFunc(r.Path+"/{filename}", imagesController.GetImage).Methods("GET")
 }

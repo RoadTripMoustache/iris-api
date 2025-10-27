@@ -5,5 +5,5 @@ type Config struct {
 	Firebase FirebaseConfig `yaml:"firebase"`
 	Database DatabaseConfig `yaml:"database"`
 	Server   ServerConfig   `yaml:"server"`
-	Images   ImageConfig    `yaml:"imnages"`
+	Images   ImageConfig    `yaml:"images"`
 }
