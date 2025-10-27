@@ -2,7 +2,7 @@
 package ideas
 
 import (
-	"github.com/RoadTripMoustache/iris_api/pkg/constantes"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	"strings"
 	"time"
 
@@ -23,7 +23,8 @@ func CreateIdea(ctx apiUtils.Context, title string, description string, tag enum
 	if title == "" || (tag != enum.IdeaTagBug && tag != enum.IdeaTagEnhancement) {
 		return nil, appErrors.New(enum.BadRequest, "invalid title or tag")
 	}
-	if len(images) > constantes.MaxImagesPerEntity {
+	appConfig := config.GetConfigs()
+	if len(images) > appConfig.Images.MaxImagesPerIdea {
 		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	idea := &dbmodels.Idea{
@@ -133,7 +134,8 @@ func AddComment(ctx apiUtils.Context, ideaID string, userID string, message stri
 	if strings.TrimSpace(message) == "" {
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
-	if len(images) > constantes.MaxImagesPerEntity {
+	appConfig := config.GetConfigs()
+	if len(images) > appConfig.Images.MaxImagesPerComment {
 		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})
@@ -175,10 +177,11 @@ func SetIdeaOpen(ctx apiUtils.Context, ideaID string, isOpen bool) (*dbmodels.Id
 
 // EditComment updates a user's own comment on an idea
 func EditComment(ctx apiUtils.Context, ideaID, commentID, userID, message string, images []string) (*dbmodels.Idea, *appErrors.EnhancedError) {
+	appConfig := config.GetConfigs()
 	if strings.TrimSpace(message) == "" {
 		return nil, appErrors.New(enum.BadRequest, "message required")
 	}
-	if len(images) > constantes.MaxImagesPerEntity {
+	if len(images) > appConfig.Images.MaxImagesPerComment {
 		return nil, appErrors.New(enum.TooManyImages, "too many images")
 	}
 	doc := nosql.GetInstance().GetFirstDocument(collection, []nosqlUtils.Filter{{Param: "id", Value: ideaID, Operator: "eq"}})

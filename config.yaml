@@ -21,6 +21,7 @@ server:
 
 images:
   maxImagesPerIdea: 1
+  maxImagesPerComment: 1
   maxSize: 2097152
   acceptedExtensions:
     - png
