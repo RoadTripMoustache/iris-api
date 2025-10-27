@@ -19,4 +19,10 @@ server:
   images_dir: "./tmp/images"
   images_base_url: "/v1/images"
 
+images:
+  maxImagesPerIdea: 1
+  maxSize: 2097152
+  acceptedExtensions:
+    - png
+    - jpg
 

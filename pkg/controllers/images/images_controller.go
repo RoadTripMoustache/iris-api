@@ -5,10 +5,10 @@ import (
 	"fmt"
 	apiUtils "github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
 	"github.com/RoadTripMoustache/iris_api/pkg/config"
-	"github.com/RoadTripMoustache/iris_api/pkg/constantes"
 	"github.com/RoadTripMoustache/iris_api/pkg/controllers/utils"
 	"github.com/RoadTripMoustache/iris_api/pkg/enum"
 	"github.com/RoadTripMoustache/iris_api/pkg/errors"
+	"github.com/RoadTripMoustache/iris_api/pkg/services/images"
 	"github.com/RoadTripMoustache/iris_api/pkg/tools/logging"
 	"github.com/gorilla/mux"
 	"io"
@@ -26,7 +26,8 @@ var filenameSafeRegexp = regexp.MustCompile(`^[A-Za-z0-9._-]+$`)
 // UploadImage handles POST /v1/images
 // Expects multipart/form-data with field name "file"
 func UploadImage(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
-	if err := ctx.Request.ParseMultipartForm(constantes.MaxImageSizeBytes); err != nil {
+	appConfig := config.GetConfigs()
+	if err := ctx.Request.ParseMultipartForm(appConfig.Images.MaxSize); err != nil {
 		return nil, errors.New(enum.ImageTooLarge, err)
 	}
 
@@ -36,9 +37,9 @@ func UploadImage(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	}
 	defer file.Close()
 
-	ext := strings.ToLower(filepath.Ext(header.Filename))
-	if ext != ".jpg" && ext != ".png" {
-		return nil, errors.New(enum.ImageExtensionNotAllowed, err)
+	eerr := images.ExtensionValidation(header.Filename)
+	if eerr != nil {
+		return nil, eerr
 	}
 
 	cfg := config.GetConfigs().Server
@@ -48,6 +49,7 @@ func UploadImage(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 	}
 
 	// Generate a unique filename
+	ext := strings.ToLower(filepath.Ext(header.Filename))
 	filename := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
 	dstPath := filepath.Join(cfg.ImagesDir, filename)
 
@@ -63,7 +65,7 @@ func UploadImage(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
 		logging.Error(err, nil)
 		return nil, errors.New(enum.InternalServerError, err)
 	}
-	if written > constantes.MaxImageSizeBytes {
+	if written > appConfig.Images.MaxSize {
 		// Safety check if client bypassed MaxBytesReader somehow
 		_ = os.Remove(dstPath)
 		return nil, errors.New(enum.ImageTooLarge, err)
