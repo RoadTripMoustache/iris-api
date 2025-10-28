@@ -73,6 +73,32 @@ paths:
                 $ref: '#/components/schemas/ImagesConfig'
         default:
           $ref: '#/components/responses/ErrorResponse'
+  /v1/images/{filename}:
+    delete:
+      summary: Supprimer une image du serveur
+      description: Supprime le fichier image stocké côté serveur par son nom de fichier.
+      tags: [Images]
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Confirmation de suppression
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                  filename:
+                    type: string
+                required: [deleted, filename]
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /images/{filename}:
     get:
       summary: Récupérer une image

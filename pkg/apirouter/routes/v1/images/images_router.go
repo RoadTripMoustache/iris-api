@@ -28,6 +28,14 @@ func (r *ImagesRouter) InitRoutes() {
 		http.StatusOK,
 		imagesController.UploadImage,
 	)
+	// Delete an image by filename
+	middlewares.AddRoute(
+		r.MuxRouter,
+		http.MethodDelete,
+		r.Path+"/{filename}",
+		http.StatusOK,
+		imagesController.DeleteImage,
+	)
 	// Get a public image by filename
 	r.MuxRouter.HandleFunc(r.Path+"/{filename}", imagesController.GetImage).Methods("GET")
 }
