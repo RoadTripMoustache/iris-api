@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+const (
+	IdeaCollectionName string = "ideas"
+	IdeaIDColumn       string = "id"
+)
+
 // Idea represents an idea. It has a Mongo internal _id and an application-level id
 // used for all operations (get, vote, manage comments).
 type Idea struct {
