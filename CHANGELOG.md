@@ -1,7 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
-
+### Changed
+- chore: Update dependencies
 
 ## 1.0.0 [02/11/2025]
 ### Added
