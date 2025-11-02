@@ -3,3 +3,4 @@ tmp
 
 # Temp files
 code_coverage.out
+taskfile.yaml
