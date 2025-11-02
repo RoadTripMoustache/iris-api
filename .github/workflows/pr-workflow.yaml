@@ -40,6 +40,14 @@ jobs:
       - name: Lint
         run: staticcheck ./...
 
+      # --- BUILD DOCKER
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t iris-api:latest .
+
   bump_version:
     name: Bump version
     runs-on: ubuntu-latest
