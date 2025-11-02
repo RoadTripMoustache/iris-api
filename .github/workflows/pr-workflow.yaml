@@ -47,21 +47,3 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t iris-api:latest .
-
-  bump_version:
-    name: Bump version
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.base.ref == 'main'
-    needs:
-      - build
-    outputs:
-      stop: ${{ steps.bump.outputs.has_changed }}
-      version: ${{ steps.bump.outputs.version }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Bump version using labels
-        id: bump
-        uses: apomalyn/bump-version-using-labels@v1.5.0
-        with:
-          file_path: 'version.yaml'
-          reference_branch: 'main'

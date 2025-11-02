@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## Unreleased
+
+
+## 1.0.0 [02/11/2025]
 ### Added
 - feat: GET /v1/ideas/{id} returns full idea details (including voters, comments and images)
 - feat: Add endpoint to upload and get a image
