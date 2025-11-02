@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"io"
 	"net/http"
 )
@@ -28,13 +27,6 @@ type Context struct {
 	Method        string
 	RequestURI    string
 	Request       *http.Request
-}
-
-func (c Context) Clone() Context {
-	mapByte, _ := json.Marshal(c)
-	newContext := Context{}
-	json.Unmarshal(mapByte, &newContext)
-	return newContext
 }
 
 func (c Context) CleanPagination() Context {

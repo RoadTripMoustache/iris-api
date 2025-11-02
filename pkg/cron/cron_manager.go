@@ -1,3 +1,4 @@
+// Package cron contains all the methods to manage crons.
 package cron
 
 import (

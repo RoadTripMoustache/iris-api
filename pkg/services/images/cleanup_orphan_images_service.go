@@ -1,3 +1,4 @@
+// Package images contains all the functions of the Image service
 package images
 
 import (

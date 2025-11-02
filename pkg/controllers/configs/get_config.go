@@ -1,3 +1,4 @@
+// Package configs contains all the functions exposed by the Configs controller.
 package configs
 
 import (

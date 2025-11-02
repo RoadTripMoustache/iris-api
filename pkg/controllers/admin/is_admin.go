@@ -1,3 +1,4 @@
+// Package admin contains all the functions exposed by the Admin controller.
 package admin
 
 import (

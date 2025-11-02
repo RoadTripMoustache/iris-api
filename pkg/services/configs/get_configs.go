@@ -1,3 +1,4 @@
+// Package configs contains all the methods of the Config Service
 package configs
 
 import (
