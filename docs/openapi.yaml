@@ -1,24 +1,24 @@
 openapi: 3.0.3
 info:
   title: Iris API
-  description: API permettant de gérer les idées, votes et commentaires.
-  version: 0.3.0
+  description: API to manage ideas, votes, and comments.
+  version: 1.0.0
 servers:
   - url: https://api.example.com
-    description: Serveur de production (exemple)
+    description: Production server (example)
   - url: http://localhost:8080
-    description: Développement local
+    description: Local development
 security:
   - bearerAuth: []
 paths:
   /v1/admin/me:
     get:
-      summary: Savoir si l'utilisateur connecté est admin
-      description: Retourne un booléen indiquant si l'utilisateur authentifié possède des droits administrateur.
+      summary: Check if the connected user is an admin
+      description: Returns a boolean indicating whether the authenticated user has administrative rights.
       tags: [Admin]
       responses:
         '200':
-          description: Statut admin de l'utilisateur
+          description: User admin status
           content:
             application/json:
               schema:
@@ -31,8 +31,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/images:
     post:
-      summary: Importer une image
-      description: "Importe une image .jpg ou .png (< 2Mo) et retourne l'URL publique pour la récupérer."
+      summary: Upload an image
+      description: "Uploads a .jpg or .png image (< 2MB) and returns the public URL to retrieve it."
       tags: [Images]
       requestBody:
         required: true
@@ -47,7 +47,7 @@ paths:
               required: [file]
       responses:
         '201':
-          description: URL de l'image
+          description: Image URL
           content:
             application/json:
               schema:
@@ -61,12 +61,12 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/images/config:
     get:
-      summary: Récupérer la configuration des images
-      description: Retourne la configuration utilisée par l'API pour la gestion des images.
+      summary: Retrieve image configuration
+      description: Returns the configuration used by the API for image management.
       tags: [Images]
       responses:
         '200':
-          description: Configuration des images
+          description: Image configuration
           content:
             application/json:
               schema:
@@ -75,8 +75,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/images/{filename}:
     delete:
-      summary: Supprimer une image du serveur
-      description: Supprime le fichier image stocké côté serveur par son nom de fichier.
+      summary: Delete an image from the server
+      description: Deletes the image file stored on the server by its filename.
       tags: [Images]
       parameters:
         - name: filename
@@ -86,7 +86,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Confirmation de suppression
+          description: Deletion confirmation
           content:
             application/json:
               schema:
@@ -101,8 +101,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /images/{filename}:
     get:
-      summary: Récupérer une image
-      description: "Retourne le contenu de l'image."
+      summary: Retrieve an image
+      description: "Returns the image content."
       tags: [Images]
       security: []
       parameters:
@@ -124,20 +124,20 @@ paths:
                 type: string
                 format: binary
         '404':
-          description: Image non trouvée
+          description: Image not found
         default:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas:
     get:
-      summary: Lister les idées
-      description: Retourne une liste paginée des idées. Ne retourne pas les champs voters, comments et images.
+      summary: List ideas
+      description: Returns a paginated list of ideas. Does not include voters, comments, or images fields.
       tags: [Ideas]
       parameters:
         - $ref: '#/components/parameters/PageNumber'
         - $ref: '#/components/parameters/PageSize'
       responses:
         '200':
-          description: Liste des idées
+          description: List of ideas
           content:
             application/json:
               schema:
@@ -145,7 +145,7 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
     post:
-      summary: Créer une idée
+      summary: Create an idea
       tags: [Ideas]
       requestBody:
         required: true
@@ -155,7 +155,7 @@ paths:
               $ref: '#/components/schemas/CreateIdeaRequest'
       responses:
         '201':
-          description: Idée créée
+          description: Idea created
           content:
             application/json:
               schema:
@@ -164,8 +164,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas/{id}:
     get:
-      summary: Récupérer une idée
-      description: Retourne l'idée complète avec tous les détails (voters, comments, images...)
+      summary: Retrieve an idea
+      description: Returns the full idea with all details (voters, comments, images...).
       tags: [Ideas]
       parameters:
         - name: id
@@ -175,7 +175,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Détail de l'idée
+          description: Idea details
           content:
             application/json:
               schema:
@@ -184,7 +184,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas/{id}/vote:
     post:
-      summary: Voter pour une idée
+      summary: Vote for an idea
       tags: [Ideas]
       parameters:
         - name: id
@@ -194,7 +194,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Idée mise à jour après le vote
+          description: Idea updated after vote
           content:
             application/json:
               schema:
@@ -202,7 +202,7 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
     delete:
-      summary: Retirer son vote pour une idée
+      summary: Remove vote for an idea
       tags: [Ideas]
       parameters:
         - name: id
@@ -212,7 +212,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Idée mise à jour après le retrait du vote
+          description: Idea updated after vote removal
           content:
             application/json:
               schema:
@@ -221,7 +221,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas/{id}/comments:
     post:
-      summary: Ajouter un commentaire à une idée
+      summary: Add a comment to an idea
       tags: [Ideas]
       parameters:
         - name: id
@@ -237,7 +237,7 @@ paths:
               $ref: '#/components/schemas/AddCommentRequest'
       responses:
         '201':
-          description: Idée mise à jour après ajout du commentaire
+          description: Idea updated after adding the comment
           content:
             application/json:
               schema:
@@ -246,7 +246,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas/{id}/comments/{commentId}:
     patch:
-      summary: Modifier un commentaire
+      summary: Edit a comment
       tags: [Ideas]
       parameters:
         - name: id
@@ -267,7 +267,7 @@ paths:
               $ref: '#/components/schemas/AddCommentRequest'
       responses:
         '200':
-          description: Idée mise à jour après modification du commentaire
+          description: Idea updated after comment modification
           content:
             application/json:
               schema:
@@ -275,7 +275,7 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
     delete:
-      summary: Supprimer un commentaire
+      summary: Delete a comment
       tags: [Ideas]
       parameters:
         - name: id
@@ -290,7 +290,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Idée mise à jour après suppression du commentaire
+          description: Idea updated after comment deletion
           content:
             application/json:
               schema:
@@ -299,8 +299,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   /v1/ideas/{id}/open:
     patch:
-      summary: Ouvrir/fermer une idée (admin)
-      description: Cette opération est réservée aux administrateurs.
+      summary: Open/close an idea (admin)
+      description: This operation is restricted to administrators.
       tags: [Ideas]
       parameters:
         - name: id
@@ -316,7 +316,7 @@ paths:
               $ref: '#/components/schemas/SetIdeaOpenRequest'
       responses:
         '200':
-          description: Idée mise à jour
+          description: Idea updated
           content:
             application/json:
               schema:
@@ -333,20 +333,20 @@ components:
     PageNumber:
       name: page[number]
       in: query
-      description: Numéro de page (commence à 1). Si absent ou invalide, valeur par défaut côté serveur.
+      description: Page number (starts at 1). If missing or invalid, the server default is used.
       schema:
         type: integer
         minimum: 1
     PageSize:
       name: page[size]
       in: query
-      description: Taille de page. Si absent ou invalide, valeur par défaut côté serveur.
+      description: Page size. If missing or invalid, the server default is used.
       schema:
         type: integer
         minimum: 1
   responses:
     ErrorResponse:
-      description: Erreur
+      description: Error
       content:
         application/json:
           schema:
@@ -385,7 +385,7 @@ components:
       required: [links, data]
     IdeaListItem:
       type: object
-      description: Idée (version liste) sans les champs lourds voters/comments/images
+      description: Idea (list version) without heavy fields voters/comments/images
       properties:
         id:
           type: string
@@ -406,11 +406,11 @@ components:
           type: boolean
         user_has_voted:
           type: boolean
-          description: Présent uniquement pour l'utilisateur authentifié
+          description: Present only for the authenticated user
       required: [id, created_at, title, description, tag, creator_id, votes_count, is_open]
     IdeaTag:
       type: string
-      description: Catégorie de l'idée
+      description: Idea category
       enum: [bug, enhancement]
     Comment:
       type: object
@@ -461,10 +461,10 @@ components:
             format: uri
         is_open:
           type: boolean
-          description: Indique si l'idée est ouverte (vote/commentaires possibles) ou fermée
+          description: Indicates whether the idea is open (voting/comments allowed) or closed
         user_has_voted:
           type: boolean
-          description: Présent uniquement pour l'utilisateur authentifié
+          description: Present only for the authenticated user
       required: [id, created_at, title, tag, creator_id, votes_count, voters, comments, images, is_open]
     CreateIdeaRequest:
       type: object
@@ -503,13 +503,13 @@ components:
       properties:
         error_code:
           type: string
-          description: Code d'erreur interne (ex. AUTH001, REQ000, SER000, ...)
+          description: Internal error code (e.g., AUTH001, REQ000, SER000, ...)
         error_message:
           type: string
         error_http_code:
           type: integer
         details:
-          description: Informations additionnelles liées à l'erreur
+          description: Additional information related to the error
       required: [error_code]
     ImagesConfig:
       type: object
@@ -520,7 +520,7 @@ components:
           type: integer
         max_size:
           type: integer
-          description: Taille maximale autorisée des images en octets
+          description: Maximum allowed image size in bytes
         accepted_extensions:
           type: array
           items:

@@ -1,7 +1,12 @@
 # CHANGELOG
 
 ## Unreleased
+### Added
+- docs: Added license
 
+### Changed
+- chore: Update dependencies
+- docs: Update documentation
 
 ## 1.0.0 [02/11/2025]
 ### Added
