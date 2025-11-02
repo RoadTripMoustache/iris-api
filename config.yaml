@@ -1,0 +1,29 @@
+firebase:
+  credentials_file_path: "./tmp/svc_account.json"
+  project_id: "guide-nestor-dev-40f8e"
+  mock:
+    enabled: false
+    data_file_path: "resources/mock/auth.json"
+
+database:
+  mongo:
+    uri: "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+    name: "iris"
+  mock:
+    enabled: false
+    data_folder_path: "resources/mock/db"
+
+server:
+  origins_allowed:
+    - "*"
+  images_dir: "./tmp/images"
+  images_base_url: "/v1/images"
+
+images:
+  maxImagesPerIdea: 1
+  maxImagesPerComment: 1
+  maxSize: 2097152
+  acceptedExtensions:
+    - png
+    - jpg
+

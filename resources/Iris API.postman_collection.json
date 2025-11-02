@@ -1,0 +1,1296 @@
+{
+	"info": {
+		"_postman_id": "51538e06-2da8-47f1-b77a-3508451f8042",
+		"name": "Iris API",
+		"description": "API permettant de gérer les idées, votes et commentaires.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1/ideas",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "vote",
+							"item": [
+								{
+									"name": "Voter pour une idée",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas",
+												":id",
+												"vote"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Erreur",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"vote"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+										},
+										{
+											"name": "Idée mise à jour après le vote",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"vote"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+										}
+									]
+								},
+								{
+									"name": "Retirer son vote pour une idée",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas",
+												":id",
+												"vote"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Erreur",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"vote"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+										},
+										{
+											"name": "Idée mise à jour après le retrait du vote",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/vote",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"vote"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "comments",
+							"item": [
+								{
+									"name": "{comment Id}",
+									"item": [
+										{
+											"name": "Modifier un commentaire",
+											"request": {
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"comments",
+														":commentId"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "commentId",
+															"value": "<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Idée mise à jour après modification du commentaire",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"description": "Added as a part of security scheme: bearer",
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+														},
+														"url": {
+															"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"ideas",
+																":id",
+																"comments",
+																":commentId"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																},
+																{
+																	"key": "commentId"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+												},
+												{
+													"name": "Erreur",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"description": "Added as a part of security scheme: bearer",
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+														},
+														"url": {
+															"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"ideas",
+																":id",
+																"comments",
+																":commentId"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																},
+																{
+																	"key": "commentId"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+												}
+											]
+										},
+										{
+											"name": "Supprimer un commentaire",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"comments",
+														":commentId"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "commentId",
+															"value": "<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Idée mise à jour après suppression du commentaire",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"description": "Added as a part of security scheme: bearer",
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"ideas",
+																":id",
+																"comments",
+																":commentId"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																},
+																{
+																	"key": "commentId"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+												},
+												{
+													"name": "Erreur",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"description": "Added as a part of security scheme: bearer",
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/ideas/:id/comments/:commentId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"ideas",
+																":id",
+																"comments",
+																":commentId"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																},
+																{
+																	"key": "commentId"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Ajouter un commentaire à une idée",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas/:id/comments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas",
+												":id",
+												"comments"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Erreur",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/comments",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"comments"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+										},
+										{
+											"name": "Idée mise à jour après ajout du commentaire",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"message\": \"<string>\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/ideas/:id/comments",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"ideas",
+														":id",
+														"comments"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Ouvrir/fermer une idée (admin)",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"is_open\": \"<boolean>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas/:id/open",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas",
+										":id",
+										"open"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "Cette opération est réservée aux administrateurs."
+							},
+							"response": [
+								{
+									"name": "Erreur",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"is_open\": \"<boolean>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas/:id/open",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas",
+												":id",
+												"open"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+								},
+								{
+									"name": "Idée mise à jour",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"is_open\": \"<boolean>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas/:id/open",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas",
+												":id",
+												"open"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "Récupérer une idée",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas/68fb56efe37dfee093974ee9",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas",
+										"68fb56efe37dfee093974ee9"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Erreur",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas"
+											],
+											"query": [
+												{
+													"key": "page[number]",
+													"value": "<integer>"
+												},
+												{
+													"key": "page[size]",
+													"value": "<integer>"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+								},
+								{
+									"name": "Liste des idées",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"ideas"
+											],
+											"query": [
+												{
+													"key": "page[number]",
+													"value": "<integer>"
+												},
+												{
+													"key": "page[size]",
+													"value": "<integer>"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n {\n  \"id\": \"ad\",\n  \"created_at\": \"2002-12-07T08:33:52.013Z\",\n  \"title\": \"sint aliqua cupidatat\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"Duis velit\",\n  \"votes_count\": -3329790,\n  \"voters\": [\n   \"amet\",\n   \"L\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"Excepteur do labore ea\",\n    \"created_at\": \"2002-03-17T20:08:27.710Z\",\n    \"user_id\": \"id\",\n    \"message\": \"enim labore ullamco mollit in\",\n    \"images\": [\n     \"http://fFplkkPQyjPs.skK,uu+MOD,O2OAUJiYAB8f98akpDuUqB8AFqBxTlhODC-Wu\",\n     \"https://iQJQfuqRmRCm.zdwc9UKA9e.1k3pCbNUQIKFIHmOv7zjB\"\n    ]\n   },\n   {\n    \"id\": \"ut in qui minim\",\n    \"created_at\": \"1985-06-24T16:11:14.687Z\",\n    \"user_id\": \"dolore fugiat enim dolor\",\n    \"message\": \"dolore cillum irure\",\n    \"images\": [\n     \"http://qZlkVaUbVSZay.osemOzVda7YXZ8P.NDyv,WR\",\n     \"https://VmteLxMHkHmtuycANf.gjknMlPp-uvU0uDPb-FnlU62pLnGyT6EtvoOujKKM1ZIZ4SU\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://fxqsFabaDhtGDdE.pgtrJwqj\",\n   \"https://UenRMqEwvZmxqZdkYxhcmuqJ.gxWlFkZxiMe0DR1wQhu\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n },\n {\n  \"id\": \"aute nisi in pariatur\",\n  \"created_at\": \"1962-12-07T02:49:38.536Z\",\n  \"title\": \"incididunt\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"cupidatat officia ullamco\",\n  \"votes_count\": -37490083,\n  \"voters\": [\n   \"cupidatat nulla cillum ad\",\n   \"ea exercitation laborum Lorem\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"sit aliquip eu ea\",\n    \"created_at\": \"1977-03-26T01:10:13.212Z\",\n    \"user_id\": \"fugiat minim laborum\",\n    \"message\": \"anim consequat sunt\",\n    \"images\": [\n     \"https://dTbqflreutw.llusk04c.U8f\",\n     \"http://XHEKeSRbVhDNoCHwFYvYF.uhBR22-KXbuezQ,\"\n    ]\n   },\n   {\n    \"id\": \"proident reprehenderit sed in\",\n    \"created_at\": \"1968-05-20T21:39:40.588Z\",\n    \"user_id\": \"incididunt exercitation esse consectetur\",\n    \"message\": \"ea officia culpa enim\",\n    \"images\": [\n     \"http://QIQkmpQYfDMfjSTaUXDTcyxSddzLCK.owsenSB33O5Io\",\n     \"https://zcFfqO.vjpkQzd7VQEb9GG+GYuYRF,NaC50NnepKmf57j4NnWspIzTNHZ1LFRmg,CAcMdIpZMDJP-5Z\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://ZdGyKZrvdhyTLSqerYfLn.xvqjJjx0\",\n   \"https://YNLgUBLpLfnTbrzMxefhWbdkXVkWh.osmoQDCTO2T3litUw38sB78degoH\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Lister les idées",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"ideas"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "<integer>",
+									"description": "Numéro de page (commence à 1). Si absent ou invalide, valeur par défaut côté serveur."
+								},
+								{
+									"key": "page[size]",
+									"value": "<integer>",
+									"description": "Taille de page. Si absent ou invalide, valeur par défaut côté serveur."
+								}
+							]
+						},
+						"description": "Retourne une liste paginée des idées."
+					},
+					"response": [
+						{
+							"name": "Erreur",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									],
+									"query": [
+										{
+											"key": "page[number]",
+											"value": "<integer>"
+										},
+										{
+											"key": "page[size]",
+											"value": "<integer>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+						},
+						{
+							"name": "Liste des idées",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									],
+									"query": [
+										{
+											"key": "page[number]",
+											"value": "<integer>"
+										},
+										{
+											"key": "page[size]",
+											"value": "<integer>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": \"ad\",\n  \"created_at\": \"2002-12-07T08:33:52.013Z\",\n  \"title\": \"sint aliqua cupidatat\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"Duis velit\",\n  \"votes_count\": -3329790,\n  \"voters\": [\n   \"amet\",\n   \"L\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"Excepteur do labore ea\",\n    \"created_at\": \"2002-03-17T20:08:27.710Z\",\n    \"user_id\": \"id\",\n    \"message\": \"enim labore ullamco mollit in\",\n    \"images\": [\n     \"http://fFplkkPQyjPs.skK,uu+MOD,O2OAUJiYAB8f98akpDuUqB8AFqBxTlhODC-Wu\",\n     \"https://iQJQfuqRmRCm.zdwc9UKA9e.1k3pCbNUQIKFIHmOv7zjB\"\n    ]\n   },\n   {\n    \"id\": \"ut in qui minim\",\n    \"created_at\": \"1985-06-24T16:11:14.687Z\",\n    \"user_id\": \"dolore fugiat enim dolor\",\n    \"message\": \"dolore cillum irure\",\n    \"images\": [\n     \"http://qZlkVaUbVSZay.osemOzVda7YXZ8P.NDyv,WR\",\n     \"https://VmteLxMHkHmtuycANf.gjknMlPp-uvU0uDPb-FnlU62pLnGyT6EtvoOujKKM1ZIZ4SU\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://fxqsFabaDhtGDdE.pgtrJwqj\",\n   \"https://UenRMqEwvZmxqZdkYxhcmuqJ.gxWlFkZxiMe0DR1wQhu\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n },\n {\n  \"id\": \"aute nisi in pariatur\",\n  \"created_at\": \"1962-12-07T02:49:38.536Z\",\n  \"title\": \"incididunt\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"cupidatat officia ullamco\",\n  \"votes_count\": -37490083,\n  \"voters\": [\n   \"cupidatat nulla cillum ad\",\n   \"ea exercitation laborum Lorem\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"sit aliquip eu ea\",\n    \"created_at\": \"1977-03-26T01:10:13.212Z\",\n    \"user_id\": \"fugiat minim laborum\",\n    \"message\": \"anim consequat sunt\",\n    \"images\": [\n     \"https://dTbqflreutw.llusk04c.U8f\",\n     \"http://XHEKeSRbVhDNoCHwFYvYF.uhBR22-KXbuezQ,\"\n    ]\n   },\n   {\n    \"id\": \"proident reprehenderit sed in\",\n    \"created_at\": \"1968-05-20T21:39:40.588Z\",\n    \"user_id\": \"incididunt exercitation esse consectetur\",\n    \"message\": \"ea officia culpa enim\",\n    \"images\": [\n     \"http://QIQkmpQYfDMfjSTaUXDTcyxSddzLCK.owsenSB33O5Io\",\n     \"https://zcFfqO.vjpkQzd7VQEb9GG+GYuYRF,NaC50NnepKmf57j4NnWspIzTNHZ1LFRmg,CAcMdIpZMDJP-5Z\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://ZdGyKZrvdhyTLSqerYfLn.xvqjJjx0\",\n   \"https://YNLgUBLpLfnTbrzMxefhWbdkXVkWh.osmoQDCTO2T3litUw38sB78degoH\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n }\n]"
+						}
+					]
+				},
+				{
+					"name": "Créer une idée",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"pouet\",\n    \"tag\": \"enhancement\",\n    \"description\": \"titi\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/ideas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"ideas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Erreur",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"<string>\",\n    \"tag\": \"enhancement\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ],\n    \"is_open\": \"<boolean>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+						},
+						{
+							"name": "Idée créée",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"<string>\",\n    \"tag\": \"enhancement\",\n    \"images\": [\n        \"<uri>\",\n        \"<uri>\"\n    ],\n    \"is_open\": \"<boolean>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"eiusmod eu voluptate\",\n \"created_at\": \"2015-12-15T21:41:55.260Z\",\n \"title\": \"Ut sint\",\n \"tag\": \"bug\",\n \"creator_id\": \"magna sit aliqua\",\n \"votes_count\": -60328349,\n \"voters\": [\n  \"incididunt aliqua sit\",\n  \"Ut minim dolor\"\n ],\n \"comments\": [\n  {\n   \"id\": \"cupidatat nulla in Ut\",\n   \"created_at\": \"1985-12-10T21:39:45.825Z\",\n   \"user_id\": \"exercitation\",\n   \"message\": \"dolore magna reprehenderit nulla\",\n   \"images\": [\n    \"https://mmvQpwuAnLth.xpWGVWjZ.Y-oUoJYxeFgy1hre.J+WKD9l\",\n    \"http://bQYZFFROKFrDzMucmfbkKnTydHZeew.ipeeaVZCVoEHFyhaVKa+EV,FvyALaqMsHjbRzQSNbaXWC,5.kiywy0hIiaVln9tYNyOO5Z\"\n   ]\n  },\n  {\n   \"id\": \"Ut reprehenderit ea\",\n   \"created_at\": \"2009-02-18T06:38:52.442Z\",\n   \"user_id\": \"ut ut Excepteur dolor ad\",\n   \"message\": \"consectetur amet enim\",\n   \"images\": [\n    \"https://zOOldIPEgUZvfPtoSuQYqlzUZCqo.rdnseuKWTSDITlHrnF\",\n    \"https://AXsmiqJdntTzyniIEemdQyTuls.kaNfyxPTA339vjxW.YHH99\"\n   ]\n  }\n ],\n \"images\": [\n  \"https://ryIIGuaKcfq.grJ1cAYnTsYR+\",\n  \"http://tJIDn.raz-HXXlKbO1IvA1h46akOwawCZssxB8RzgbI0sCe1RrWoaENoknK1IN,nchJvj9u\"\n ],\n \"is_open\": false,\n \"user_has_voted\": true\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "v1/configs",
+			"item": [
+				{
+					"name": "Récupérer les configs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/configs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"configs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Erreur",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									],
+									"query": [
+										{
+											"key": "page[number]",
+											"value": "<integer>"
+										},
+										{
+											"key": "page[size]",
+											"value": "<integer>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"error_code\": \"est offic\",\n \"error_message\": \"labore Duis do aute\",\n \"error_http_code\": -5235870,\n \"details\": {}\n}"
+						},
+						{
+							"name": "Liste des idées",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: bearer",
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/ideas?page[number]=<integer>&page[size]=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"ideas"
+									],
+									"query": [
+										{
+											"key": "page[number]",
+											"value": "<integer>"
+										},
+										{
+											"key": "page[size]",
+											"value": "<integer>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"id\": \"ad\",\n  \"created_at\": \"2002-12-07T08:33:52.013Z\",\n  \"title\": \"sint aliqua cupidatat\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"Duis velit\",\n  \"votes_count\": -3329790,\n  \"voters\": [\n   \"amet\",\n   \"L\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"Excepteur do labore ea\",\n    \"created_at\": \"2002-03-17T20:08:27.710Z\",\n    \"user_id\": \"id\",\n    \"message\": \"enim labore ullamco mollit in\",\n    \"images\": [\n     \"http://fFplkkPQyjPs.skK,uu+MOD,O2OAUJiYAB8f98akpDuUqB8AFqBxTlhODC-Wu\",\n     \"https://iQJQfuqRmRCm.zdwc9UKA9e.1k3pCbNUQIKFIHmOv7zjB\"\n    ]\n   },\n   {\n    \"id\": \"ut in qui minim\",\n    \"created_at\": \"1985-06-24T16:11:14.687Z\",\n    \"user_id\": \"dolore fugiat enim dolor\",\n    \"message\": \"dolore cillum irure\",\n    \"images\": [\n     \"http://qZlkVaUbVSZay.osemOzVda7YXZ8P.NDyv,WR\",\n     \"https://VmteLxMHkHmtuycANf.gjknMlPp-uvU0uDPb-FnlU62pLnGyT6EtvoOujKKM1ZIZ4SU\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://fxqsFabaDhtGDdE.pgtrJwqj\",\n   \"https://UenRMqEwvZmxqZdkYxhcmuqJ.gxWlFkZxiMe0DR1wQhu\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n },\n {\n  \"id\": \"aute nisi in pariatur\",\n  \"created_at\": \"1962-12-07T02:49:38.536Z\",\n  \"title\": \"incididunt\",\n  \"tag\": \"enhancement\",\n  \"creator_id\": \"cupidatat officia ullamco\",\n  \"votes_count\": -37490083,\n  \"voters\": [\n   \"cupidatat nulla cillum ad\",\n   \"ea exercitation laborum Lorem\"\n  ],\n  \"comments\": [\n   {\n    \"id\": \"sit aliquip eu ea\",\n    \"created_at\": \"1977-03-26T01:10:13.212Z\",\n    \"user_id\": \"fugiat minim laborum\",\n    \"message\": \"anim consequat sunt\",\n    \"images\": [\n     \"https://dTbqflreutw.llusk04c.U8f\",\n     \"http://XHEKeSRbVhDNoCHwFYvYF.uhBR22-KXbuezQ,\"\n    ]\n   },\n   {\n    \"id\": \"proident reprehenderit sed in\",\n    \"created_at\": \"1968-05-20T21:39:40.588Z\",\n    \"user_id\": \"incididunt exercitation esse consectetur\",\n    \"message\": \"ea officia culpa enim\",\n    \"images\": [\n     \"http://QIQkmpQYfDMfjSTaUXDTcyxSddzLCK.owsenSB33O5Io\",\n     \"https://zcFfqO.vjpkQzd7VQEb9GG+GYuYRF,NaC50NnepKmf57j4NnWspIzTNHZ1LFRmg,CAcMdIpZMDJP-5Z\"\n    ]\n   }\n  ],\n  \"images\": [\n   \"https://ZdGyKZrvdhyTLSqerYfLn.xvqjJjx0\",\n   \"https://YNLgUBLpLfnTbrzMxefhWbdkXVkWh.osmoQDCTO2T3litUw38sB78degoH\"\n  ],\n  \"is_open\": true,\n  \"user_has_voted\": false\n }\n]"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "<Bearer Token>",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.example.com",
+			"type": "string"
+		}
+	]
+}
