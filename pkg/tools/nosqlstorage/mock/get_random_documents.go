@@ -1,6 +1,8 @@
 package mock
 
-import "golang.org/x/exp/rand"
+import (
+	"math/rand"
+)
 
 // GetRandomDocuments - Get random documents from a collection.
 func (m *MockClient) GetRandomDocuments(collection string, sampleSize int) []map[string]interface{} {
