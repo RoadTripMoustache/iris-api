@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Iris API
   description: API to manage ideas, votes, and comments.
-  version: 1.0.0
+  version: 1.1.0
 servers:
   - url: https://api.example.com
     description: Production server (example)
@@ -11,6 +11,52 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /v1/admin:
+    get:
+      summary: Get all the admin in database
+      description: Returns the list of admins
+      tags: [Admin]
+      responses:
+        '200':
+          description: Admin list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      summary: Add an admin
+      description: Add an user to the admin list
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin'
+      responses:
+        '200':
+          description: Admin added
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Remove an admin
+      description: Remove an user to the admin list
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin'
+      responses:
+        '200':
+          description: Admin removed
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /v1/admin/me:
     get:
       summary: Check if the connected user is an admin
@@ -352,6 +398,11 @@ components:
           schema:
             $ref: '#/components/schemas/EnhancedError'
   schemas:
+    Admin:
+        type: object
+        properties:
+          user_email:
+            type: string
     Links:
       type: object
       properties:

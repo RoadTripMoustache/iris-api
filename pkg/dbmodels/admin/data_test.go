@@ -6,14 +6,14 @@ import (
 
 var (
 	adminMap = map[string]interface{}{
-		"user_id": "titiU",
+		"user_email": "titiU",
 	}
 
 	admin = Admin{
-		UserID: "titiU",
+		UserEmail: "titiU",
 	}
 
 	adminModel = models.Admin{
-		UserID: "titiU",
+		UserEmail: "titiU",
 	}
 )

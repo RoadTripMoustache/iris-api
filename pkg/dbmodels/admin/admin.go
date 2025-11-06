@@ -8,16 +8,16 @@ import (
 
 const (
 	AdminCollectionName string = "admins"
-	AdminUserIDLabel    string = "user_id"
+	AdminUserEmailLabel string = "user_email"
 )
 
 type Admin struct {
-	UserID string `json:"user_id"`
+	UserEmail string `json:"user_email"`
 }
 
 func (a *Admin) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"user_id": a.UserID,
+		"user_email": a.UserEmail,
 	}
 }
 
@@ -31,7 +31,7 @@ func AdminFromMap(m map[string]interface{}) *Admin {
 
 func ToAdminModel(admin Admin) models.Admin {
 	modelAdmin := models.Admin{
-		UserID: admin.UserID,
+		UserEmail: admin.UserEmail,
 	}
 
 	return modelAdmin

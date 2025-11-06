@@ -3,6 +3,7 @@ package admin
 
 import (
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	dbmodels "github.com/RoadTripMoustache/iris_api/pkg/dbmodels/admin"
 	"github.com/RoadTripMoustache/iris_api/pkg/enum"
 	"github.com/RoadTripMoustache/iris_api/pkg/errors"
@@ -13,21 +14,33 @@ import (
 
 var (
 	noSQLStorageGetInstance = nosqlstorage.GetInstance
+	configGetConfigs        = config.GetConfigs
 )
 
 // GetAdmin retrieves the admin record for a user with the specified ID.
 // Parameters:
 //   - ctx: The API context containing request information
-//   - userID: The ID of the user to check for admin privileges
+//   - UserEmail: The email of the user to check for admin privileges
 //
 // Returns:
 //   - *dbmodels.Admin: The admin record if found, nil otherwise
 //   - *errors.EnhancedError: Error information if the operation fails
-func GetAdmin(ctx utils.Context, userID string) (*dbmodels.Admin, *errors.EnhancedError) {
+func GetAdmin(ctx utils.Context, userEmail string) (*dbmodels.Admin, *errors.EnhancedError) {
+	// Check in the default admins
+	cfg := configGetConfigs()
+	for _, a := range cfg.Admin.DefaultList {
+		if a == userEmail {
+			return &dbmodels.Admin{
+				UserEmail: userEmail,
+			}, nil
+		}
+	}
+
+	// Then check in the database
 	requestFilters := []nosqlutils.Filter{{
-		Param:    dbmodels.AdminUserIDLabel,
+		Param:    dbmodels.AdminUserEmailLabel,
 		Operator: "==",
-		Value:    userID,
+		Value:    userEmail,
 	}}
 
 	documents := noSQLStorageGetInstance().
@@ -60,6 +73,13 @@ func GetAdmins(ctx utils.Context) ([]*dbmodels.Admin, *errors.EnhancedError) {
 		admins = append(admins, admin)
 	}
 
+	cfg := configGetConfigs()
+	for _, a := range cfg.Admin.DefaultList {
+		admins = append(admins, &dbmodels.Admin{
+			UserEmail: a,
+		})
+	}
+
 	return admins, nil
 }
 
@@ -67,12 +87,12 @@ func GetAdmins(ctx utils.Context) ([]*dbmodels.Admin, *errors.EnhancedError) {
 // If the user already has admin privileges, an error is returned.
 // Parameters:
 //   - ctx: The API context containing request information
-//   - userID: The ID of the user to grant admin privileges to
+//   - userEmail: The email of the user to grant admin privileges to
 //
 // Returns:
 //   - *errors.EnhancedError: Error information if the operation fails or if the user already has admin privileges
-func AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
-	a, eerr := GetAdmin(ctx, userID)
+func AddAdmin(ctx utils.Context, userEmail string) *errors.EnhancedError {
+	a, eerr := GetAdmin(ctx, userEmail)
 	if eerr != nil {
 		return eerr
 	}
@@ -81,7 +101,7 @@ func AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
 	}
 
 	newAdmin := dbmodels.Admin{
-		UserID: userID,
+		UserEmail: userEmail,
 	}
 
 	err := noSQLStorageGetInstance().Add(dbmodels.AdminCollectionName, newAdmin.ToMap())
@@ -102,7 +122,7 @@ func AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
 // Returns:
 //   - *errors.EnhancedError: Error information if the operation fails
 func DeleteAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
-	err := noSQLStorageGetInstance().Delete(dbmodels.AdminCollectionName, userID, dbmodels.AdminUserIDLabel)
+	err := noSQLStorageGetInstance().Delete(dbmodels.AdminCollectionName, userID, dbmodels.AdminUserEmailLabel)
 	if err != nil {
 		logging.Error(err, nil)
 		return errors.New(enum.InternalServerError, nil)

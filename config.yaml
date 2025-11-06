@@ -27,3 +27,6 @@ images:
     - png
     - jpg
 
+admin:
+  defaultList:
+    - abc@gmail.com

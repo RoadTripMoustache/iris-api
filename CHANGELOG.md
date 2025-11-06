@@ -3,6 +3,8 @@
 ## Unreleased
 ### Added
 - docs: Added license
+- feat: Add admin management endpoints
+- feat: Add config to setup default admin accounts
 
 ### Changed
 - chore: Update dependencies

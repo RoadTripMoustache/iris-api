@@ -13,8 +13,8 @@ type MockAdminManagementService struct {
 	mock.Mock
 }
 
-func (m *MockAdminManagementService) GetAdmin(ctx utils.Context, userID string) (*dbmodels.Admin, *errors.EnhancedError) {
-	args := m.Called(ctx, userID)
+func (m *MockAdminManagementService) GetAdmin(ctx utils.Context, userEmail string) (*dbmodels.Admin, *errors.EnhancedError) {
+	args := m.Called(ctx, userEmail)
 	var activity *dbmodels.Admin
 	if args.Get(0) != nil {
 		activity = args.Get(0).(*dbmodels.Admin)
@@ -39,8 +39,8 @@ func (m *MockAdminManagementService) GetAdmins(ctx utils.Context) ([]*dbmodels.A
 	return admins, enhancedError
 }
 
-func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
-	args := m.Called(ctx, userID)
+func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userEmail string) *errors.EnhancedError {
+	args := m.Called(ctx, userEmail)
 	var enhancedError *errors.EnhancedError
 	if args.Get(0) != nil {
 		enhancedError = args.Get(0).(*errors.EnhancedError)
@@ -48,8 +48,8 @@ func (m *MockAdminManagementService) AddAdmin(ctx utils.Context, userID string) 
 	return enhancedError
 }
 
-func (m *MockAdminManagementService) DeleteAdmin(ctx utils.Context, userID string) *errors.EnhancedError {
-	args := m.Called(ctx, userID)
+func (m *MockAdminManagementService) DeleteAdmin(ctx utils.Context, userEmail string) *errors.EnhancedError {
+	args := m.Called(ctx, userEmail)
 	var enhancedError *errors.EnhancedError
 	if args.Get(0) != nil {
 		enhancedError = args.Get(0).(*errors.EnhancedError)

@@ -11,10 +11,10 @@ import (
 
 // IsCurrentUserAdmin returns whether the authenticated user is an admin.
 func IsCurrentUserAdmin(ctx apiUtils.Context) ([]byte, *errors.EnhancedError) {
-	if ctx.UserID == "" {
+	if ctx.UserEmail == "" {
 		return nil, errors.New(enum.AuthUnauthorized, nil)
 	}
-	adm, e := adminsvc.GetAdmin(ctx, ctx.UserID)
+	adm, e := adminsvc.GetAdmin(ctx, ctx.UserEmail)
 	if e != nil {
 		return nil, e
 	}

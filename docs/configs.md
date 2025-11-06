@@ -73,3 +73,15 @@ images:
 - `images.maxImagesPerComment` : *(Env variable : `IMAGE_MAX_IMAGES_PER_COMMENT`)* - Max number of images per comment
 - `images.maxSize` : *(Env variable : `IMAGE_MAX_SIZE`)* - Image max site in bytes
 - `images.acceptedExtensions` : List of file extensions allowed for file update.
+
+
+---
+
+## Admin
+```yaml
+admin:
+  defaultList:
+```
+
+### Parameters
+- `admin.defaultList` : List of default administrator of the Iris instance

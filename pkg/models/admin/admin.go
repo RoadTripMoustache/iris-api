@@ -2,5 +2,5 @@
 package admin
 
 type Admin struct {
-	UserID string `json:"user_id"`
+	UserEmail string `json:"user_email"`
 }

@@ -6,4 +6,5 @@ type Config struct {
 	Database DatabaseConfig `yaml:"database"`
 	Server   ServerConfig   `yaml:"server"`
 	Images   ImageConfig    `yaml:"images"`
+	Admin    AdminConfig    `yaml:"admin"`
 }
