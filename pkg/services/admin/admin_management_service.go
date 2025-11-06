@@ -3,6 +3,7 @@ package admin
 
 import (
 	"github.com/RoadTripMoustache/iris_api/pkg/apirouter/utils"
+	"github.com/RoadTripMoustache/iris_api/pkg/config"
 	dbmodels "github.com/RoadTripMoustache/iris_api/pkg/dbmodels/admin"
 	"github.com/RoadTripMoustache/iris_api/pkg/enum"
 	"github.com/RoadTripMoustache/iris_api/pkg/errors"
@@ -13,6 +14,7 @@ import (
 
 var (
 	noSQLStorageGetInstance = nosqlstorage.GetInstance
+	configGetConfigs        = config.GetConfigs
 )
 
 // GetAdmin retrieves the admin record for a user with the specified ID.
@@ -24,6 +26,17 @@ var (
 //   - *dbmodels.Admin: The admin record if found, nil otherwise
 //   - *errors.EnhancedError: Error information if the operation fails
 func GetAdmin(ctx utils.Context, userEmail string) (*dbmodels.Admin, *errors.EnhancedError) {
+	// Check in the default admins
+	cfg := configGetConfigs()
+	for _, a := range cfg.Admin.DefaultList {
+		if a == userEmail {
+			return &dbmodels.Admin{
+				UserEmail: userEmail,
+			}, nil
+		}
+	}
+
+	// Then check in the database
 	requestFilters := []nosqlutils.Filter{{
 		Param:    dbmodels.AdminUserEmailLabel,
 		Operator: "==",
@@ -58,6 +71,13 @@ func GetAdmins(ctx utils.Context) ([]*dbmodels.Admin, *errors.EnhancedError) {
 	for _, doc := range documents {
 		admin := dbmodels.AdminFromMap(doc)
 		admins = append(admins, admin)
+	}
+
+	cfg := configGetConfigs()
+	for _, a := range cfg.Admin.DefaultList {
+		admins = append(admins, &dbmodels.Admin{
+			UserEmail: a,
+		})
 	}
 
 	return admins, nil
