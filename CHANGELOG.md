@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## Unreleased
+
+
+## 1.1.0 [06/11/2025]
 ### Added
 - docs: Added license
 - feat: Add admin management endpoints
