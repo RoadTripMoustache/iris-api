@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 - docs: Added license
+- feat: Add admin management endpoints
 
 ### Changed
 - chore: Update dependencies

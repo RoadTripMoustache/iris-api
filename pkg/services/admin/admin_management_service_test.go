@@ -31,11 +31,11 @@ func Test_GetAdmin(t *testing.T) {
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
-					"user_id": "toto",
+					"user_email": "toto",
 				},
 			},
 			expectedResult: &dbmodels.Admin{
-				UserID: "toto",
+				UserEmail: "toto",
 			},
 			exprectedErr: nil,
 		},
@@ -44,9 +44,9 @@ func Test_GetAdmin(t *testing.T) {
 	for _, testCase := range testCases {
 		t.Run(testCase.caseDesc, func(t *testing.T) {
 			// --- Given
-			userID := "toto_uuid"
+			userEmail := "toto_uuid"
 			ctx := apiUtils.Context{
-				UserID:      userID,
+				UserEmail:   userEmail,
 				QueryParams: testCase.queryParams,
 			}
 
@@ -54,7 +54,7 @@ func Test_GetAdmin(t *testing.T) {
 			mNoSQLStorageInstance.
 				On("GetFirstDocument", dbmodels.AdminCollectionName,
 					[]utils.Filter{{
-						Param:    dbmodels.AdminUserIDLabel,
+						Param:    dbmodels.AdminUserEmailLabel,
 						Operator: "==",
 						Value:    "totoU",
 					}}).
@@ -97,12 +97,12 @@ func Test_GetAdmins(t *testing.T) {
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
-					"user_id": "toto",
+					"user_email": "toto",
 				},
 			},
 			expectedResult: []*dbmodels.Admin{
 				{
-					UserID: "toto",
+					UserEmail: "toto",
 				},
 			},
 			exprectedErr: nil,
@@ -112,18 +112,18 @@ func Test_GetAdmins(t *testing.T) {
 			queryParams: nil,
 			dbResult: []map[string]interface{}{
 				{
-					"user_id": "toto",
+					"user_email": "toto",
 				},
 				{
-					"user_id": "titi",
+					"user_email": "titi",
 				},
 			},
 			expectedResult: []*dbmodels.Admin{
 				{
-					UserID: "toto",
+					UserEmail: "toto",
 				},
 				{
-					UserID: "titi",
+					UserEmail: "titi",
 				},
 			},
 			exprectedErr: nil,
@@ -133,11 +133,11 @@ func Test_GetAdmins(t *testing.T) {
 	for _, testCase := range testCases {
 		t.Run(testCase.caseDesc, func(t *testing.T) {
 			// --- Given
-			userID := "toto_uuid"
+			userEmail := "toto_uuid"
 			pageNumber := 1
 			pageOffset := 0
 			ctx := apiUtils.Context{
-				UserID:      userID,
+				UserEmail:   userEmail,
 				QueryParams: testCase.queryParams,
 				Pagination: apiUtils.Pagination{
 					PageNumber: &pageNumber,
@@ -171,10 +171,10 @@ func Test_GetAdmins(t *testing.T) {
 func Test_AddAdmin(t *testing.T) {
 	// --- Given
 	ctx := apiUtils.Context{
-		UserID: "toto",
+		UserEmail: "toto",
 	}
 	expectedResult := dbmodels.Admin{
-		UserID: "titi",
+		UserEmail: "titi",
 	}
 
 	mNoSQLStorageInstance := new(services.MockNoSQLStorageInstance)
@@ -186,7 +186,7 @@ func Test_AddAdmin(t *testing.T) {
 	mNoSQLStorageInstance.
 		On("GetFirstDocument", dbmodels.AdminCollectionName,
 			[]utils.Filter{{
-				Param:    dbmodels.AdminUserIDLabel,
+				Param:    dbmodels.AdminUserEmailLabel,
 				Operator: "==",
 				Value:    "titi",
 			}}).
@@ -213,7 +213,7 @@ func Test_DeleteAdmin(t *testing.T) {
 	mNoSQLStorageInstance := new(services.MockNoSQLStorageInstance)
 	var nilError error
 	mNoSQLStorageInstance.
-		On("Delete", dbmodels.AdminCollectionName, "titi", dbmodels.AdminUserIDLabel).
+		On("Delete", dbmodels.AdminCollectionName, "titi", dbmodels.AdminUserEmailLabel).
 		Return(nilError)
 
 	mockNoSQLStorageService := new(services.MockNoSQLStorage)
